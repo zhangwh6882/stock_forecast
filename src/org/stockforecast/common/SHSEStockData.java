@@ -23,7 +23,7 @@ public class SHSEStockData extends StockData {
 	 @Override
 	 public String ReturnDataType() {
 		return DataType;
-	}
+	 }
 	@Override
 	public void setData(String StockId, String AbstractName) {
 		if(StockId.charAt(0)=='6')

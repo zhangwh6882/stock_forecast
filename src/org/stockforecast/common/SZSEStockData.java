@@ -2,7 +2,7 @@ package org.stockforecast.common;
 
 /**
  *深圳证券交易所股票数据
- * http://www.szse.cn/szseWeb/FrontController.szse?ACTIONID=7&CATALOGID=1111&TABKEY=tab4&tab1PAGENUM=1
+ * http://www.szse.cn/szseWeb/FrontController.szse?ACTIONID=7&CATALOGID=1111&TABKEY=tab1&tab1PAGENUM=1
  * */
 public class SZSEStockData extends StockData {
      public String CompanyName;//公司全称
@@ -16,8 +16,8 @@ public class SZSEStockData extends StockData {
     	 this.setData(StockId, AbstractName);	 
      }
      public SZSEStockData(String StockId,String AbstractName,String CompanyName,String CompanyUrl, String Industry){
-        this();
-        this.setData(StockId, AbstractName, CompanyName, CompanyUrl, Industry);
+         this();
+         this.setData(StockId, AbstractName, CompanyName, CompanyUrl, Industry);
      }
      //设置类的值
      @Override
@@ -39,7 +39,5 @@ public class SZSEStockData extends StockData {
      
      public String ReturnDataType() {
  		return DataType;
- 	}
-	
-     
+ 	}    
 }
