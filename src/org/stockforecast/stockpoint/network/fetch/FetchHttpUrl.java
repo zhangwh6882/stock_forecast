@@ -21,7 +21,7 @@ public class FetchHttpUrl {
     	 connection=(HttpURLConnection)this.url.openConnection();
      }
 	 @SuppressWarnings("static-access")
-	public FetchHttpUrl SetMethod(String Method) throws ProtocolException{
+	 public FetchHttpUrl SetMethod(String Method) throws ProtocolException{
     	 if(Method.equals("POST")){
     		 connection.setDoOutput(true);
     	     connection.setDoInput(true);
@@ -67,10 +67,16 @@ public class FetchHttpUrl {
     	 connection.setRequestProperty("Referer",Referer);
     	 return this;
      }
-	 public BufferedReader FetchHtml(String ContentType) throws IOException{ 
-    	 connection.connect();
+	 public String FetchHtmlText(String ContentType) throws IOException{ 
+    	 String line=null;
+    	 String text=null;
+		 connection.connect();
     	 reader=new BufferedReader(new InputStreamReader(
                  connection.getInputStream(),"UTF-8"));
-		 return reader;
+    	 while((line=reader.readLine())!=null){
+    		 text=text+line;
+    	 }
+    	 reader.close();
+		 return text;
     }
 }

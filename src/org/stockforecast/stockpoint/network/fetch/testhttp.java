@@ -1,6 +1,5 @@
 package org.stockforecast.stockpoint.network.fetch;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 
 public class testhttp {
@@ -15,17 +14,12 @@ public class testhttp {
         fetchHttpUrl.SetHost("query.sse.com.cn");
         fetchHttpUrl.SetXForwardedFor("10.0.0.1");
         fetchHttpUrl.SetReferer("http://www.sse.com.cn/assortment/stock/list/name/");
-        fetchHttpUrl.SetUserAgent("Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.146 Safari/537.36");
-        BufferedReader reader=fetchHttpUrl.FetchHtml("GBK");
-        String line;
-        String text = null;
-        while ((line= reader.readLine()) != null){
-        	text=text+line;
-        	System.out.println(line);
-        }
+        fetchHttpUrl.SetUserAgent("Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.146 Safari/537.36");     
+        String  text=fetchHttpUrl.FetchHtmlText("GBK");
+        System.out.println(text);
            
         
-        reader.close();
+        ;
 	}
 
 }
