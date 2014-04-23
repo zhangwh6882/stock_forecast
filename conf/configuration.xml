@@ -33,4 +33,25 @@
 </RequestHeader>
 <Regex>dddddd</Regex>
 </WebSite>
+<WebSite name="huxuehan">
+<HostURL>www.huxuehan.com</HostURL>
+<Parameter status="3">
+<child name="hu">1</child>
+<child name="xue">2</child>
+<child name="han">3</child>
+</Parameter>
+<RequestHeader>
+<Accept>111</Accept>
+<Accept-Encoding>222</Accept-Encoding>
+<Accept-Language>333</Accept-Language>
+<Cache-Control>444</Cache-Control>
+<Connection>555</Connection>
+<Host>666</Host>
+<User-agent>777</User-agent>
+<X-Forwarded-For>888</X-Forwarded-For>
+<Referer>999</Referer>
+</RequestHeader>
+<SendMethod>POST</SendMethod>
+<Regex>qunima</Regex>
+</WebSite>
 </root>

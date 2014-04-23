@@ -1,7 +1,6 @@
 package org.stockforecast.stockpoint.network.configuration;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 public class SetConfiguration {
 	private BasicConfiguration configuration=null;
@@ -11,9 +10,11 @@ public class SetConfiguration {
 	public void set(){
 		configuration.SetWebsiteName();
 		configuration.setUrl();
+		configuration.setParamter();
 		configuration.setRequestHeader();
+		configuration.setSendMethod();
 		configuration.setRegex();
-		
+
 		configuration.WriteConfiguration();
 	}
 	

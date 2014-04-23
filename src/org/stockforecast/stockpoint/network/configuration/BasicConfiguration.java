@@ -21,7 +21,6 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
@@ -114,6 +113,7 @@ public class BasicConfiguration  {
 				}
 			}	
      }
+/*设置抓取的网站的名称*/
      public void SetWebsiteName(){
     	 System.out.print("输入抓取的网站的名称:");
  		 String body=scanner.nextLine();
@@ -121,7 +121,7 @@ public class BasicConfiguration  {
     	 Website.setAttribute("name", body);
     	 root.appendChild(Website); 
  	 }
-     
+ /*设置要抓去的网站的网址*/    
  	 public void setUrl(){
  		System.out.print("输入网址:");
 		String body=scanner.nextLine();
@@ -129,15 +129,15 @@ public class BasicConfiguration  {
  		HostURL.setTextContent(body);
  		Website.appendChild(HostURL);
  	 }
- 	 
+	 
  	 public void setParamter(){
  		System.out.println("--------------输入抓取的时所需参数--------------");
  		Parameter=doc.createElement(PARAMETER);
- 		System.out.print("如果该链接没有参数输入1\n如果有参数且参数是固定的输入2\n如果有参数且参数是变化的输入3\n：");
+ 		System.out.print("如果该链接没有参数输入1\n如果有参数且参数是固定的输入2\n如果有参数且参数是变化的输入3\n对应选项输入参数：");
  		switch(scanner.nextLine()){
  		   case "1" :Parameter.setAttribute("status", "1"); break;
- 		   case "2" :Parameter.setAttribute("status", "2"); break;
- 		   case "3" :Parameter.setAttribute("status", "3");break;
+ 		   case "2" :Parameter.setAttribute("status", "2");setParamterChildNode("2"); break;
+ 		   case "3" :Parameter.setAttribute("status", "3");setParamterChildNode("3"); break;
  		   default  :System.out.println("参数输入错误");break;
  		
  		}
@@ -146,13 +146,34 @@ public class BasicConfiguration  {
  	 }
  	 
  	 public void setParamterChildNode(String status){
+ 		boolean changeable = false; 
  		switch(status){
- 		case "2" :break;
- 		case "3" :break;
+ 		case "2" :changeable=true;break;
+ 		case "3" :changeable=true;break;
  		}
- 		System.out.print("");
- 		System.out.print("");
- 		System.out.print("");
+ 		if(changeable){
+ 			while(true){
+ 				System.out.print("输入参数的名称:");
+ 				String name=scanner.nextLine();
+ 				Element element=doc.createElement("child");
+ 				element.setAttribute("name", name);
+ 				System.out.print("输入参数的内容：");
+ 				String body=scanner.nextLine();
+ 				element.setTextContent(body);
+ 				Parameter.appendChild(element);
+ 				System.out.print("是否完成输入？(Y/N):");
+ 				String choice=scanner.nextLine();
+ 				if(choice.equals("Y")||choice.equals("y"))
+ 					break;
+ 				else
+ 					continue;
+ 			}
+ 		}
+ 		else{
+ 			System.out.print("输入参数：");
+ 			String body=scanner.nextLine();
+ 			Parameter.setTextContent(body);
+ 		}
  	 }
 /*设置setRequestHeader标签*/	 
  	 public void setRequestHeader(){
@@ -173,7 +194,8 @@ public class BasicConfiguration  {
  	 public void setRequestHeaderChildNode(String RequestHeaderName){
  		 System.out.print("输入"+RequestHeaderName+"内容：");
  		 String body=scanner.nextLine();
- 		 Element element=doc.createElement(RequestHeaderName);
+ 		 Element element=doc.createElement("child");
+ 		 element.setAttribute("name", RequestHeaderName);
  		 element.setTextContent(body);
  		 RequestHeader.appendChild(element);
  		 
