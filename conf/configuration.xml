@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="GB2312"?><root>
+<WebSite name="baidu"/>
+<HostURL>www.baidu.com</HostURL>
+<Regex>wwwwwwwww</Regex>
+<WebSite name="tencent">
+<HostURL>wwww.tencent.com</HostURL>
+<Regex>wwwwwww</Regex>
+</WebSite>
+<WebSite name="ddddd">
+<HostURL>dddddddd</HostURL>
+<Regex>ddddd</Regex>
+</WebSite>
+<WebSite name="null">
+<HostURL>null</HostURL>
+<Regex>null</Regex>
+</WebSite>
+<WebSite name="">
+<HostURL/>
+<Regex/>
+</WebSite>
+<WebSite name="1111">
+<HostURL>1111</HostURL>
+<RequestHeader>
+<Accept/>
+<Accept-Encoding>1111</Accept-Encoding>
+<Accept-Language>111</Accept-Language>
+<Cache-Control>2222</Cache-Control>
+<Connection>44444</Connection>
+<Host>33333</Host>
+<User-agent>33333</User-agent>
+<X-Forwarded-For>55555</X-Forwarded-For>
+<Referer/>
+</RequestHeader>
+<Regex>dddddd</Regex>
+</WebSite>
+</root>

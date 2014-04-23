@@ -5,6 +5,13 @@ import java.io.InputStreamReader;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.HttpURLConnection;
+/**
+ * 获取网页正文
+ * 支持部分RequestHeader参数的设置
+ * 支持Get和Post方法的设置
+ * 支持重定向
+ * 返回网页正文为string类型
+ * */
 public class FetchHttpUrl {
      private  URL url;
      private  HttpURLConnection connection=null;
@@ -21,7 +28,7 @@ public class FetchHttpUrl {
     	 connection=(HttpURLConnection)this.url.openConnection();
      }
 	 @SuppressWarnings("static-access")
-	 public FetchHttpUrl SetMethod(String Method) throws ProtocolException{
+	 public void SetMethod(String Method) throws ProtocolException{
     	 if(Method.equals("POST")){
     		 connection.setDoOutput(true);
     	     connection.setDoInput(true);
@@ -29,50 +36,28 @@ public class FetchHttpUrl {
     	 }
     	 connection.setFollowRedirects(true);
     	 connection.setRequestMethod(Method);
-    	 return this;
      }
- 	 public FetchHttpUrl SetAccept(String Accept){
-     	connection.setRequestProperty("Accept", Accept);
-     	return this; 	
-     }  
-	 public FetchHttpUrl SetAcceptEncoding(String AcceptEncoding){
-    	 connection.setRequestProperty("Accept-Encoding", AcceptEncoding);
-    	 return this;
-     }
- 	 public FetchHttpUrl SetAcceptLanguage(String AcceptLanguage){
-     	connection.setRequestProperty("connections",AcceptLanguage );
-     	return this;
-     }
-	 public FetchHttpUrl SetCacheControl(String CacheConrol){
-    	 connection.setRequestProperty("Cache-Control",CacheConrol);
-    	 return this;
-     }
-	 public FetchHttpUrl SetConnection(String Connection){
-    	connection.setRequestProperty("Connection", Connection);
-    	return this;
-     }   
-	 public FetchHttpUrl SetHost(String Host){
-    	connection.setRequestProperty("Host", Host);
-    	return this;
-     }
-	 public FetchHttpUrl SetUserAgent(String UserAgent){
-		 connection.setRequestProperty("User-agent", UserAgent);
-   	     return this;
-     }
-	 public FetchHttpUrl SetXForwardedFor(String XForwardedFor){
-    	 connection.setRequestProperty("X-Forwarded-For", XForwardedFor);
-         return  this;   
-     }
-	 public FetchHttpUrl SetReferer(String Referer){
-    	 connection.setRequestProperty("Referer",Referer);
-    	 return this;
-     }
+	 public void SetRequestHeader(String Header,String Body) throws Exception{
+		 switch(Header){
+		  case "Accept"          :connection.setRequestProperty("Accept", Body);break;
+		  case "Accept-Encoding" :connection.setRequestProperty("Accept-Encoding", Body);break;
+		  case "Accept-Language" :connection.setRequestProperty("Accept-Language",Body );break;
+		  case "Cache-Control"   :connection.setRequestProperty("Cache-Control",Body);break;
+		  case "Connection"      :connection.setRequestProperty("Connection", Body);break;
+		  case "Host"            :connection.setRequestProperty("Host", Body);break;
+		  case "User-agent"      :connection.setRequestProperty("User-agent", Body);break;
+		  case "X-Forwarded-For" :connection.setRequestProperty("X-Forwarded-For", Body);break;
+		  case "Referer"         :connection.setRequestProperty("Referer",Body);break;
+		  default: throw new  Exception("没想好");
+		 }                		 
+	 }
+	 
 	 public String FetchHtmlText(String ContentType) throws IOException{ 
     	 String line=null;
     	 String text=null;
 		 connection.connect();
     	 reader=new BufferedReader(new InputStreamReader(
-                 connection.getInputStream(),"UTF-8"));
+                 connection.getInputStream(),ContentType));
     	 while((line=reader.readLine())!=null){
     		 text=text+line;
     	 }
