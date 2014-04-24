@@ -17,8 +17,4 @@ public class SetConfiguration {
 
 		configuration.WriteConfiguration();
 	}
-	
-	
-	
-	
 }

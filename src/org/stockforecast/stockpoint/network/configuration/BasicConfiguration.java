@@ -6,6 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,6 +23,7 @@ import org.stockforecast.common.WebAttribute;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
@@ -72,8 +76,7 @@ public class BasicConfiguration  {
      private Element Regex=null;
      
 /*初始化配置文件内容*/     
-     private final String InitContent="<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-     		                          + "\n<root>\n</root>";
+     private final String InitContent="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n</root>";
 /*控制内容输入*/   
      private Scanner scanner =new Scanner(System.in);
 /*构造函数*/
@@ -223,7 +226,7 @@ public class BasicConfiguration  {
  		Regex.appendChild(stockCode);
  		Website.appendChild(Regex);
  	 }
- /*输出已经设置好的参数*/ 
+ /*--------------------------------输出已经设置好的参数--------------------------------------*/ 
  	 public void Output(Node node,String fileName){
  		 TransformerFactory transformerFactory=TransformerFactory.newInstance();
  		 try {
@@ -256,11 +259,66 @@ public class BasicConfiguration  {
      public void WriteConfiguration(){
     	 Output(root,FILE_PATH);
      }
-     public WebAttribute getConfiguration(){
-    	
-    	 return new WebAttribute();
+/*-----------------------------------获得已经配置好的参数-------------------------------------*/
+     public LinkedList<WebAttribute> getConfiguration(){
+    	 LinkedList<WebAttribute> webAttribute =new LinkedList<WebAttribute>();
+    	 WebAttribute listNode=new WebAttribute();
+    	 NodeList webSites;
+    	 if(root.hasChildNodes()){
+    		 webSites=root.getChildNodes(); 		 
+    	 }
+    	 else{
+    		 System.out.println("配置文件为空");
+    		 return null;
+    	 }
+    	 for(int i=0;i<webSites.getLength();i++){
+    		 NodeList webSiteChildNode=webSites.item(i).getChildNodes();
+    		 listNode.setWebName(getWebSiteName(webSites.item(i)));
+    		 listNode.setURL(getHostURL(webSiteChildNode.item(0)));
+    		 listNode.setParamterIsNull(getParametersStatus(webSiteChildNode.item(1), 1));
+    		 listNode.setChangeable(getParametersStatus(webSiteChildNode.item(1),2));
+    		 webSiteChildNode.item(1);
+    		 webSiteChildNode.item(2);
+    		 webSiteChildNode.item(3);
+    		 webSiteChildNode.item(4);
+    		 
+  
+    	 }
+    	 return webAttribute;
      }
-     public void Description(){
-    	 
+     
+     public String getWebSiteName(Node node){
+    	  return node.getAttributes().getNamedItem("name").getNodeValue();
+     }
+     
+     public String getHostURL(Node node){
+    	  return node.getTextContent();
+     }
+     
+     public boolean getParametersStatus(Node node,int code){
+    	 switch(code){
+    		 case 1:if(node.getAttributes().getNamedItem("status").getNodeValue().equals("1"))
+    			       return true;
+    		        else
+    		           return false;
+    		 case 2:if(node.getAttributes().getNamedItem("status").getNodeValue().equals("3"))
+    			       return true;
+    		        else
+    		           return false;
+    	 }
+		return false;
+     }
+     public String getParameter(Node node){
+    	 String parameter="?";
+    	 NodeList childs=node.getChildNodes();
+    	 for(int i=0;i<childs.getLength()-1;i++){
+    		 parameter=parameter+childs.item(i).getAttributes().getNamedItem("name").getNodeValue()+"="+childs.item(i).getTextContent()+"&";
+    	 }
+    	 parameter=parameter+childs.item(childs.getLength()-1).getAttributes().getNamedItem("name").getNodeValue()+"=";
+    	 return parameter;
+     }
+     public ArrayList<String> RequestHeader(Node node){
+    	 List<String> requestHeader=new ArrayList<String>();
+    	 return (ArrayList<String>) requestHeader;
      }
 }

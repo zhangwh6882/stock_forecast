@@ -78,7 +78,7 @@ public class WebAttribute {
 	   public void setWebName(String webName) {
 		   this.webName = webName;
 	   }
-	   public void setURl(String uRl) {
+	   public void setURL(String uRl) {
 		   URl = uRl;
 	   }
 	   public void setMethod(String method) {
