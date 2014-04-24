@@ -210,10 +210,18 @@ public class BasicConfiguration  {
  	 }
 /*设置正则表达式*/	 
  	 public void setRegex(){
- 		System.out.print("输入匹配正则表达式:");
-		String body=scanner.nextLine();
+ 		Element stockName=doc.createElement("stockname");
+ 		Element stockCode=doc.createElement("stockcode");
  		Regex=doc.createElement(REGEX);
- 		Regex.setTextContent(body);
+ 		System.out.println("---------------------输入匹配正则表达式------------------------");
+ 		System.out.print("输入匹配股票简称的正则表达式：");
+		String name=scanner.nextLine();
+	    stockName.setTextContent(name);
+ 		System.out.print("输入匹配股票名称的正则表达式：");
+ 		String code=scanner.nextLine();
+ 		stockCode.setTextContent(code);
+ 		Regex.appendChild(stockName);
+ 		Regex.appendChild(stockCode);
  		Website.appendChild(Regex);
  	 }
  /*输出已经设置好的参数*/ 
