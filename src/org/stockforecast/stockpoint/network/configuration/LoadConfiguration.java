@@ -14,7 +14,7 @@ public class LoadConfiguration {
 	   return webAttribute;
 	}
 	public void setWebAttribute(){
-		
+		webAttribute=configuration.getConfiguration();
 	}
 	
  }

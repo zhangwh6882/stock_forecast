@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,7 +16,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
+import org.stockforecast.common.WebAttribute;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -257,8 +256,9 @@ public class BasicConfiguration  {
      public void WriteConfiguration(){
     	 Output(root,FILE_PATH);
      }
-     public void getConfiguration(){
-    	 
+     public WebAttribute getConfiguration(){
+    	
+    	 return new WebAttribute();
      }
      public void Description(){
     	 
