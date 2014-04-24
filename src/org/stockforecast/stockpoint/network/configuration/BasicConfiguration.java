@@ -6,19 +6,25 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import org.stockforecast.common.WebAttribute;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -74,33 +80,30 @@ public class BasicConfiguration  {
      private Element RequestHeader=null;
      private Element SendMethod=null;
      private Element Regex=null;
-     
-/*初始化配置文件内容*/     
-     private final String InitContent="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<root>\n</root>";
 /*控制内容输入*/   
      private Scanner scanner =new Scanner(System.in);
 /*构造函数*/
-     public BasicConfiguration() throws IOException{
-    	    FileOutputStream fos=null;
+     public BasicConfiguration() throws IOException, TransformerException{
+    	 
 			try {
 				builder=builderFactory.newDocumentBuilder();
 				try {
 					file=new FileInputStream(FILE_PATH);
 				} catch (FileNotFoundException e) {
-					File  tempfile=new File(FILE_PATH);
-					if(tempfile.createNewFile()){
-						System.out.println("创建配置文件成功");
-						fos=new FileOutputStream(FILE_PATH);
-						fos.write(InitContent.getBytes());
-						builder=builderFactory.newDocumentBuilder();
-						file=new FileInputStream(FILE_PATH);
-					}
-					else{
-						System.out.println("创建配置文件失败");
-						return;
-					}
+					builder=builderFactory.newDocumentBuilder();
+					Document document= builder.newDocument(); 
+					Element rootElement = document.createElement("root");
+					document.appendChild(rootElement);
+					TransformerFactory transformerFactory = TransformerFactory.newInstance();  
+		            Transformer transformer = transformerFactory.newTransformer();  
+		            Source xmlSource = new DOMSource(document);  
+		            Result outputTarget = new StreamResult(new File(FILE_PATH));
+		            transformer.transform(xmlSource, outputTarget); 
+		            System.out.println("创建配置文件成功");
+		            
+		            file=new FileInputStream(FILE_PATH);
 				}
-				doc=builder.parse(file);
+				doc=builder.parse(FILE_PATH);
 				root = doc.getDocumentElement();
 			} catch (ParserConfigurationException e1) {
 				// TODO Auto-generated catch block
@@ -108,12 +111,7 @@ public class BasicConfiguration  {
 			} catch (SAXException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} finally{
-				if (fos != null) {
-					fos.close();
-					fos = null;
-				}
-			}	
+			}
      }
 /*设置抓取的网站的名称*/
      public void SetWebsiteName(){
@@ -227,23 +225,17 @@ public class BasicConfiguration  {
  		Website.appendChild(Regex);
  	 }
  /*--------------------------------输出已经设置好的参数--------------------------------------*/ 
- 	 public void Output(Node node,String fileName){
+ 	 public void Output(Document document,String fileName){
  		 TransformerFactory transformerFactory=TransformerFactory.newInstance();
  		 try {
 			Transformer transformer = transformerFactory.newTransformer();
-			transformer.setOutputProperty("encoding", "gb2312");
-			transformer.setOutputProperty("indent", "yes");
+			transformer.setOutputProperty(OutputKeys.ENCODING, "gb2312");
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			DOMSource source=new DOMSource();
-			source.setNode(node);
-			StreamResult result=new StreamResult();
-			if(fileName==null){
-				result.setOutputStream(System.out);
-			}
-			else{
-				result.setOutputStream(new FileOutputStream(fileName));
-				
-			}
-		   transformer.transform(source, result);	
+			source.setNode(document);
+			PrintWriter pw = new PrintWriter(new FileOutputStream(fileName));
+			StreamResult result=new StreamResult(pw);
+			transformer.transform(source, result);	
 		 } catch (TransformerConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -257,15 +249,18 @@ public class BasicConfiguration  {
 		}
  	 }
      public void WriteConfiguration(){
-    	 Output(root,FILE_PATH);
+    	 Output(doc,FILE_PATH);
      }
 /*-----------------------------------获得已经配置好的参数-------------------------------------*/
      public LinkedList<WebAttribute> getConfiguration(){
     	 LinkedList<WebAttribute> webAttribute =new LinkedList<WebAttribute>();
     	 WebAttribute listNode=new WebAttribute();
     	 NodeList webSites;
-    	 if(root.hasChildNodes()){
-    		 webSites=root.getChildNodes(); 		 
+    	 ArrayList<String> RequestHeader=null;
+    	 ArrayList<String> regex=null;
+    	 if(doc.hasChildNodes()){
+    		 webSites=doc.getChildNodes(); 
+    		 System.out.println(webSites.getLength());
     	 }
     	 else{
     		 System.out.println("配置文件为空");
@@ -274,29 +269,51 @@ public class BasicConfiguration  {
     	 for(int i=0;i<webSites.getLength();i++){
     		 NodeList webSiteChildNode=webSites.item(i).getChildNodes();
     		 listNode.setWebName(getWebSiteName(webSites.item(i)));
+    		 System.out.println(listNode.getWebName());
+    		 /*-------URL tags------*/
     		 listNode.setURL(getHostURL(webSiteChildNode.item(0)));
+    		 /*------parameter tags-------*/
     		 listNode.setParamterIsNull(getParametersStatus(webSiteChildNode.item(1), 1));
     		 listNode.setChangeable(getParametersStatus(webSiteChildNode.item(1),2));
-    		 webSiteChildNode.item(1);
-    		 webSiteChildNode.item(2);
-    		 webSiteChildNode.item(3);
-    		 webSiteChildNode.item(4);
+    		 if(listNode.isParamterIsNull()==false)
+    	       listNode.setParameter(getParameter(webSiteChildNode.item(1),listNode.isChangeable()));
+    		 /*-------RequestHeader tags------*/
+    		 RequestHeader=getRequestHeader(webSiteChildNode.item(2));
+    		 listNode.setAccept(RequestHeader.get(0));
+    		 listNode.setAccept_Encoding(RequestHeader.get(1));
+    		 listNode.setAccept_Language(RequestHeader.get(2));
+    		 listNode.setCache_Control(RequestHeader.get(3));
+    		 listNode.setConnection(RequestHeader.get(4));
+    		 listNode.setHost(RequestHeader.get(5));
+    		 listNode.setUser_agent(RequestHeader.get(6));
+    		 listNode.setX_Forwarded_For(RequestHeader.get(7));
+    		 listNode.setReferer(RequestHeader.get(8));
+    		 /*--------Method tags------------*/
+    		 listNode.setMethod(getMethod(webSiteChildNode.item(3)));
+    		 /*--------Regex tags----------*/
+    		 regex=getRegex(webSiteChildNode.item(4));
+    		 listNode.setStockNameRegex(regex.get(0));
+    		 listNode.setStockCodeRegex(regex.get(1));
     		 
+    		 webAttribute.add(listNode);
   
     	 }
     	 return webAttribute;
      }
      
      public String getWebSiteName(Node node){
-    	  return node.getAttributes().getNamedItem("name").getNodeValue();
+    	  if (node.getNodeType() == Node.ELEMENT_NODE)
+    	    return node.getAttributes().getNamedItem("name").getNodeValue();
+    	  else
+    		return null;
      }
      
      public String getHostURL(Node node){
-    	  return node.getTextContent();
+    	  return node.getNodeValue();
      }
      
-     public boolean getParametersStatus(Node node,int code){
-    	 switch(code){
+     public boolean getParametersStatus(Node node,int signal){
+    	 switch(signal){
     		 case 1:if(node.getAttributes().getNamedItem("status").getNodeValue().equals("1"))
     			       return true;
     		        else
@@ -308,17 +325,39 @@ public class BasicConfiguration  {
     	 }
 		return false;
      }
-     public String getParameter(Node node){
+     public String getParameter(Node node,boolean changeable){
     	 String parameter="?";
     	 NodeList childs=node.getChildNodes();
     	 for(int i=0;i<childs.getLength()-1;i++){
-    		 parameter=parameter+childs.item(i).getAttributes().getNamedItem("name").getNodeValue()+"="+childs.item(i).getTextContent()+"&";
+    		 parameter=parameter+childs.item(i).getAttributes().getNamedItem("name").getNodeValue()+"="+childs.item(i).getNodeValue()+"&";
     	 }
-    	 parameter=parameter+childs.item(childs.getLength()-1).getAttributes().getNamedItem("name").getNodeValue()+"=";
+    	 if(changeable)
+      		 parameter=parameter+childs.item(childs.getLength()-1).getAttributes().getNamedItem("name").getNodeValue()+"=";
+    	 else
+    		 parameter=parameter+childs.item(childs.getLength()-1).getAttributes().getNamedItem("name").getNodeValue()+"="+childs.item(childs.getLength()-1).getNodeValue();
     	 return parameter;
      }
-     public ArrayList<String> RequestHeader(Node node){
+     public ArrayList<String> getRequestHeader(Node node){
     	 List<String> requestHeader=new ArrayList<String>();
+    	 NodeList childs=node.getChildNodes();
+    	 for(int i=0;i<childs.getLength();i++){
+    		 String header=childs.item(i).getNodeValue();
+    		 requestHeader.add(header);
+    	 }
     	 return (ArrayList<String>) requestHeader;
+     }
+     
+     public String getMethod(Node node){
+    	 return node.getNodeValue();
+     }
+     
+     public ArrayList<String> getRegex(Node node){
+    	 List<String> regex=new ArrayList<String>();
+    	 NodeList regexs=node.getChildNodes();
+    	 for(int i=0;i<regexs.getLength();i++){
+    		 String childRegex=regexs.item(i).getNodeValue();
+    		 regex.add(childRegex); 
+    	 }
+    	 return (ArrayList<String>) regex;
      }
 }

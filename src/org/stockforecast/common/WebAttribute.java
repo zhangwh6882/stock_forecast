@@ -1,23 +1,30 @@
 package org.stockforecast.common;
 
 public class WebAttribute {
-	   private String  webName;
-	   private String  URl;
-	   private String  method;
+	   private String  webName=null;
+	   private String  URl=null;
 	   private boolean changeable=false;
-	   private String  parameter;
+	   private String  parameter=null;
 	   private boolean paramterIsNull=false;
-	   private  String Accept;
-	   private  String Accept_Encoding;
-	   private  String Accept_Language;
-	   private  String Cache_Control;
-	   private  String Connection;
-	   private  String Host;
-	   private  String User_agent;
-	   private  String X_Forwarded_For;
-	   private  String Referer;
+	   private  String Accept=null;
+	   private  String Accept_Encoding=null;
+	   private  String Accept_Language=null;
+	   private  String Cache_Control=null;
+	   private  String Connection=null;
+	   private  String Host=null;
+	   private  String User_agent=null;
+	   private  String X_Forwarded_For=null;
+	   private  String Referer=null;
 	   
-	   public WebAttribute(){
+	   private String  method=null;
+	   
+	   private String stockNameRegex=null;
+	   private String stockCodeRegex=null;
+	   
+
+	
+
+	public WebAttribute(){
 		   
 	   }
 	  
@@ -74,6 +81,15 @@ public class WebAttribute {
 	   public String getReferer(){
 			return Referer;
 	   }
+	   
+	   public String getStockNameRegex() {
+			  return stockNameRegex;
+	   }
+
+	   public String getStockCodeRegex() {
+			 return stockCodeRegex;
+	   }
+	   
 	/*--------------------set attribute part------------------------*/   
 	   public void setWebName(String webName) {
 		   this.webName = webName;
@@ -120,5 +136,13 @@ public class WebAttribute {
        public void setReferer(String referer){
 			Referer = referer;
 	   }
+       
+       public void setStockNameRegex(String stockNameRegex) {
+   		    this.stockNameRegex = stockNameRegex;
+   	  }
+
+   	  public void setStockCodeRegex(String stockCodeRegex) {
+   		  this.stockCodeRegex = stockCodeRegex;
+   	  }
 	   
 }
