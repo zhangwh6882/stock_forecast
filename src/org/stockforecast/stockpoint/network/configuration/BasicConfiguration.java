@@ -1,36 +1,13 @@
 package org.stockforecast.stockpoint.network.configuration;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
 
+import java.util.Scanner;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import org.stockforecast.common.WebAttribute;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 /**
  * 作为整个系统的配置部分
@@ -47,317 +24,32 @@ import org.xml.sax.SAXException;
  *      4 以上所有信息全部包含在一个<WebSite name="">标签中
  * */
 
-public class BasicConfiguration  {
-/*目录文件*/
-	 private final String FILE_PATH = "conf/configuration.xml";
-/*配置文件中的标签名称*/	 
-	 private final String HOST_URL = "HostURL";
-	 private final String PARAMETER = "Parameter";
-	 private final String REQUESTHEADER = "RequestHeader";
-	 private final String SENDMETHOD = "SendMethod";
-	 private final String WEBSITE = "WebSite";
-	 private final String REGEX="Regex";
-/*RequestHeader 内容*/	 
-	 private final String ACCEPT="Accept";
-	 private final String ACCEPT_ENCODING="Accept-Encoding";
-	 private final String ACCEPT_LANGUAGE="Accept-Language";
-	 private final String CACHE_CONTROL="Cache-Control";
-	 private final String CONNECTION="Connection";
-	 private final String HOST="Host";
-	 private final String USER_AGENT="User-agent";
-	 private final String X_FORWARDED_FOR="X-Forwarded-For";
-	 private final String REFERER="Referer";
+public class BasicConfiguration implements Configuration {
+
 /*XML 包中的类*/ 
-	 private DocumentBuilderFactory builderFactory=DocumentBuilderFactory.newInstance();
-     private DocumentBuilder builder =null;
-     private Document doc=null;
-     private InputStream file=null;
+	protected Document _document=null;
 /*元素节点*/     
-     private Element root=null;
-     private Element Website=null;
-     private Element HostURL=null;
-     private Element Parameter=null;
-     private Element RequestHeader=null;
-     private Element SendMethod=null;
-     private Element Regex=null;
-/*控制内容输入*/   
-     private Scanner scanner =new Scanner(System.in);
-/*构造函数*/
-     public BasicConfiguration() throws IOException, TransformerException{
-    	 
-			try {
-				builder=builderFactory.newDocumentBuilder();
-				try {
-					file=new FileInputStream(FILE_PATH);
-				} catch (FileNotFoundException e) {
-					builder=builderFactory.newDocumentBuilder();
-					Document document= builder.newDocument(); 
-					Element rootElement = document.createElement("root");
-					document.appendChild(rootElement);
-					TransformerFactory transformerFactory = TransformerFactory.newInstance();  
-		            Transformer transformer = transformerFactory.newTransformer();  
-		            Source xmlSource = new DOMSource(document);  
-		            Result outputTarget = new StreamResult(new File(FILE_PATH));
-		            transformer.transform(xmlSource, outputTarget); 
-		            System.out.println("创建配置文件成功");
-		            
-		            file=new FileInputStream(FILE_PATH);
-				}
-				doc=builder.parse(FILE_PATH);
-				root = doc.getDocumentElement();
-			} catch (ParserConfigurationException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (SAXException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-     }
-/*设置抓取的网站的名称*/
-     public void SetWebsiteName(){
-    	 System.out.print("输入抓取的网站的名称:");
- 		 String body=scanner.nextLine();
-    	 Website=doc.createElement(WEBSITE);
-    	 Website.setAttribute("name", body);
-    	 root.appendChild(Website); 
- 	 }
- /*设置要抓去的网站的网址*/    
- 	 public void setUrl(){
- 		System.out.print("输入网址:");
-		String body=scanner.nextLine();
- 		HostURL=doc.createElement(HOST_URL);
- 		HostURL.setTextContent(body);
- 		Website.appendChild(HostURL);
- 	 }
-	 
- 	 public void setParamter(){
- 		System.out.println("--------------输入抓取的时所需参数--------------");
- 		Parameter=doc.createElement(PARAMETER);
- 		System.out.print("如果该链接没有参数输入1\n如果有参数且参数是固定的输入2\n如果有参数且参数是变化的输入3\n对应选项输入参数：");
- 		switch(scanner.nextLine()){
- 		   case "1" :Parameter.setAttribute("status", "1"); break;
- 		   case "2" :Parameter.setAttribute("status", "2");setParamterChildNode("2"); break;
- 		   case "3" :Parameter.setAttribute("status", "3");setParamterChildNode("3"); break;
- 		   default  :System.out.println("参数输入错误");break;
- 		
- 		}
- 		Website.appendChild(Parameter);
- 		
- 	 }
- 	 
- 	 public void setParamterChildNode(String status){
- 		boolean changeable = false; 
- 		switch(status){
- 		case "2" :changeable=true;break;
- 		case "3" :changeable=true;break;
- 		}
- 		if(changeable){
- 			while(true){
- 				System.out.print("输入参数的名称:");
- 				String name=scanner.nextLine();
- 				Element element=doc.createElement("child");
- 				element.setAttribute("name", name);
- 				System.out.print("输入参数的内容：");
- 				String body=scanner.nextLine();
- 				element.setTextContent(body);
- 				Parameter.appendChild(element);
- 				System.out.print("是否完成输入？(Y/N):");
- 				String choice=scanner.nextLine();
- 				if(choice.equals("Y")||choice.equals("y"))
- 					break;
- 				else
- 					continue;
- 			}
- 		}
- 		else{
- 			System.out.print("输入参数：");
- 			String body=scanner.nextLine();
- 			Parameter.setTextContent(body);
- 		}
- 	 }
-/*设置setRequestHeader标签*/	 
- 	 public void setRequestHeader(){
- 		System.out.println("-------------输入RequestHeader-------------");
- 		RequestHeader=doc.createElement(REQUESTHEADER);
- 		Website.appendChild(RequestHeader);
- 		setRequestHeaderChildNode(ACCEPT);
- 		setRequestHeaderChildNode(ACCEPT_ENCODING);
- 		setRequestHeaderChildNode(ACCEPT_LANGUAGE);
- 		setRequestHeaderChildNode(CACHE_CONTROL);
- 		setRequestHeaderChildNode(CONNECTION);
- 		setRequestHeaderChildNode(HOST);
- 		setRequestHeaderChildNode(USER_AGENT);
- 		setRequestHeaderChildNode(X_FORWARDED_FOR);
- 		setRequestHeaderChildNode(REFERER);		
- 	 }
- 	 
- 	 public void setRequestHeaderChildNode(String RequestHeaderName){
- 		 System.out.print("输入"+RequestHeaderName+"内容：");
- 		 String body=scanner.nextLine();
- 		 Element element=doc.createElement("child");
- 		 element.setAttribute("name", RequestHeaderName);
- 		 element.setTextContent(body);
- 		 RequestHeader.appendChild(element);
- 		 
- 	 }
-/*设置POST亦或是GET方法*/ 	 
- 	 public void setSendMethod(){
- 		 System.out.print("输入POST抑或是GET：");
- 		 String body=scanner.nextLine();
- 		 SendMethod=doc.createElement(SENDMETHOD);
- 		 SendMethod.setTextContent(body);
- 		 Website.appendChild(SendMethod);
- 	 }
-/*设置正则表达式*/	 
- 	 public void setRegex(){
- 		Element stockName=doc.createElement("stockname");
- 		Element stockCode=doc.createElement("stockcode");
- 		Regex=doc.createElement(REGEX);
- 		System.out.println("---------------------输入匹配正则表达式------------------------");
- 		System.out.print("输入匹配股票简称的正则表达式：");
-		String name=scanner.nextLine();
-	    stockName.setTextContent(name);
- 		System.out.print("输入匹配股票名称的正则表达式：");
- 		String code=scanner.nextLine();
- 		stockCode.setTextContent(code);
- 		Regex.appendChild(stockName);
- 		Regex.appendChild(stockCode);
- 		Website.appendChild(Regex);
- 	 }
- /*--------------------------------输出已经设置好的参数--------------------------------------*/ 
- 	 public void Output(Document document,String fileName){
- 		 TransformerFactory transformerFactory=TransformerFactory.newInstance();
- 		 try {
-			Transformer transformer = transformerFactory.newTransformer();
-			transformer.setOutputProperty(OutputKeys.ENCODING, "gb2312");
-			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			DOMSource source=new DOMSource();
-			source.setNode(document);
-			PrintWriter pw = new PrintWriter(new FileOutputStream(fileName));
-			StreamResult result=new StreamResult(pw);
-			transformer.transform(source, result);	
-		 } catch (TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		 } catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			//nothing to do
-			e.printStackTrace();
-		 } catch (TransformerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	protected Element _root=null;
+	protected Element _Website=null;
+	protected Element _HostURL=null;
+	protected Element _Parameter=null;
+	protected Element _RequestHeader=null;
+	protected Element _SendMethod=null;
+	protected Element _Regex=null;
+    DocumentBuilderFactory factory;
+    DocumentBuilder builder;
+    
+	protected Scanner _scanner =new Scanner(System.in);
+     public BasicConfiguration(){
+       
+        try{
+		    factory = DocumentBuilderFactory.newInstance();
+		    builder = factory.newDocumentBuilder();		
+	    }
+		catch (ParserConfigurationException e){
+			 System.out.println(e.getMessage());
 		}
- 	 }
-     public void WriteConfiguration(){
-    	 Output(doc,FILE_PATH);
-     }
-/*-----------------------------------获得已经配置好的参数-------------------------------------*/
-     public LinkedList<WebAttribute> getConfiguration(){
-    	 LinkedList<WebAttribute> webAttribute =new LinkedList<WebAttribute>();
-    	 WebAttribute listNode=new WebAttribute();
-    	 NodeList webSites;
-    	 ArrayList<String> RequestHeader=null;
-    	 ArrayList<String> regex=null;
-    	 if(doc.hasChildNodes()){
-    		 webSites=doc.getChildNodes(); 
-    		 System.out.println(webSites.getLength());
-    	 }
-    	 else{
-    		 System.out.println("配置文件为空");
-    		 return null;
-    	 }
-    	 for(int i=0;i<webSites.getLength();i++){
-    		 NodeList webSiteChildNode=webSites.item(i).getChildNodes();
-    		 listNode.setWebName(getWebSiteName(webSites.item(i)));
-    		 System.out.println(listNode.getWebName());
-    		 /*-------URL tags------*/
-    		 listNode.setURL(getHostURL(webSiteChildNode.item(0)));
-    		 /*------parameter tags-------*/
-    		 listNode.setParamterIsNull(getParametersStatus(webSiteChildNode.item(1), 1));
-    		 listNode.setChangeable(getParametersStatus(webSiteChildNode.item(1),2));
-    		 if(listNode.isParamterIsNull()==false)
-    	       listNode.setParameter(getParameter(webSiteChildNode.item(1),listNode.isChangeable()));
-    		 /*-------RequestHeader tags------*/
-    		 RequestHeader=getRequestHeader(webSiteChildNode.item(2));
-    		 listNode.setAccept(RequestHeader.get(0));
-    		 listNode.setAccept_Encoding(RequestHeader.get(1));
-    		 listNode.setAccept_Language(RequestHeader.get(2));
-    		 listNode.setCache_Control(RequestHeader.get(3));
-    		 listNode.setConnection(RequestHeader.get(4));
-    		 listNode.setHost(RequestHeader.get(5));
-    		 listNode.setUser_agent(RequestHeader.get(6));
-    		 listNode.setX_Forwarded_For(RequestHeader.get(7));
-    		 listNode.setReferer(RequestHeader.get(8));
-    		 /*--------Method tags------------*/
-    		 listNode.setMethod(getMethod(webSiteChildNode.item(3)));
-    		 /*--------Regex tags----------*/
-    		 regex=getRegex(webSiteChildNode.item(4));
-    		 listNode.setStockNameRegex(regex.get(0));
-    		 listNode.setStockCodeRegex(regex.get(1));
-    		 
-    		 webAttribute.add(listNode);
-  
-    	 }
-    	 return webAttribute;
-     }
+        
+      }
      
-     public String getWebSiteName(Node node){
-    	  if (node.getNodeType() == Node.ELEMENT_NODE)
-    	    return node.getAttributes().getNamedItem("name").getNodeValue();
-    	  else
-    		return null;
-     }
-     
-     public String getHostURL(Node node){
-    	  return node.getNodeValue();
-     }
-     
-     public boolean getParametersStatus(Node node,int signal){
-    	 switch(signal){
-    		 case 1:if(node.getAttributes().getNamedItem("status").getNodeValue().equals("1"))
-    			       return true;
-    		        else
-    		           return false;
-    		 case 2:if(node.getAttributes().getNamedItem("status").getNodeValue().equals("3"))
-    			       return true;
-    		        else
-    		           return false;
-    	 }
-		return false;
-     }
-     public String getParameter(Node node,boolean changeable){
-    	 String parameter="?";
-    	 NodeList childs=node.getChildNodes();
-    	 for(int i=0;i<childs.getLength()-1;i++){
-    		 parameter=parameter+childs.item(i).getAttributes().getNamedItem("name").getNodeValue()+"="+childs.item(i).getNodeValue()+"&";
-    	 }
-    	 if(changeable)
-      		 parameter=parameter+childs.item(childs.getLength()-1).getAttributes().getNamedItem("name").getNodeValue()+"=";
-    	 else
-    		 parameter=parameter+childs.item(childs.getLength()-1).getAttributes().getNamedItem("name").getNodeValue()+"="+childs.item(childs.getLength()-1).getNodeValue();
-    	 return parameter;
-     }
-     public ArrayList<String> getRequestHeader(Node node){
-    	 List<String> requestHeader=new ArrayList<String>();
-    	 NodeList childs=node.getChildNodes();
-    	 for(int i=0;i<childs.getLength();i++){
-    		 String header=childs.item(i).getNodeValue();
-    		 requestHeader.add(header);
-    	 }
-    	 return (ArrayList<String>) requestHeader;
-     }
-     
-     public String getMethod(Node node){
-    	 return node.getNodeValue();
-     }
-     
-     public ArrayList<String> getRegex(Node node){
-    	 List<String> regex=new ArrayList<String>();
-    	 NodeList regexs=node.getChildNodes();
-    	 for(int i=0;i<regexs.getLength();i++){
-    		 String childRegex=regexs.item(i).getNodeValue();
-    		 regex.add(childRegex); 
-    	 }
-    	 return (ArrayList<String>) regex;
-     }
 }

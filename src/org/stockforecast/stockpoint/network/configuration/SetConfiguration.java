@@ -5,18 +5,11 @@ import java.io.IOException;
 import javax.xml.transform.TransformerException;
 
 public class SetConfiguration {
-	private BasicConfiguration configuration=null;
+	private WriteConfiguration _WC=null;
 	public SetConfiguration() throws IOException, TransformerException{
-		configuration=new BasicConfiguration();
+		_WC=new WriteConfiguration();
 	}
 	public void set(){
-		configuration.SetWebsiteName();
-		configuration.setUrl();
-		configuration.setParamter();
-		configuration.setRequestHeader();
-		configuration.setSendMethod();
-		configuration.setRegex();
-
-		configuration.WriteConfiguration();
+	    _WC.setConfiguration();
 	}
 }

@@ -1,3 +1,28 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="GB2312" standalone="no"?>
 <root>
+<WebSite name="huxuehan">
+<HostURL>www.huxuehan.com</HostURL>
+<Parameter status="3">
+<child name="hu">1</child>
+<child name="xue">2</child>
+<child name="han">3</child>
+<child name="shen">4</child>
+</Parameter>
+<RequestHeader>
+<child name="Accept">a</child>
+<child name="Accept-Encoding">b</child>
+<child name="Accept-Language">c</child>
+<child name="Cache-Control">d</child>
+<child name="Connection">e</child>
+<child name="Host">f</child>
+<child name="User-agent">g</child>
+<child name="X-Forwarded-For">h</child>
+<child name="Referer">i</child>
+</RequestHeader>
+<SendMethod>POSt</SendMethod>
+<Regex>
+<stockname>aa</stockname>
+<stockcode>bb</stockcode>
+</Regex>
+</WebSite>
 </root>
