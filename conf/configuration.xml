@@ -25,4 +25,28 @@
 <stockcode>bb</stockcode>
 </Regex>
 </WebSite>
+<WebSite name="xuehanhu">
+<HostURL>www.xuehan.hu</HostURL>
+<Parameter status="3">
+<child name="xue">1</child>
+<child name="han">2</child>
+<child name="hu">3</child>
+</Parameter>
+<RequestHeader>
+<child name="Accept"/>
+<child name="Accept-Encoding">bb</child>
+<child name="Accept-Language">d</child>
+<child name="Cache-Control">d</child>
+<child name="Connection">e</child>
+<child name="Host">f</child>
+<child name="User-agent">x</child>
+<child name="X-Forwarded-For">s</child>
+<child name="Referer">x</child>
+</RequestHeader>
+<SendMethod>GET</SendMethod>
+<Regex>
+<stockname>sfvsse</stockname>
+<stockcode>xxdfsaa</stockcode>
+</Regex>
+</WebSite>
 </root>

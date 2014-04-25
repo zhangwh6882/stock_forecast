@@ -2,6 +2,7 @@ package org.stockforecast.stockpoint.network.configuration;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -11,14 +12,20 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 public class WriteConfiguration extends BasicConfiguration
 {
-       public WriteConfiguration(){
+       public WriteConfiguration(String choice) throws SAXException, IOException{
     	   super();
-		   this._document = builder.newDocument();
-    	   _root = this._document.createElement("root");
-    	   this._document.appendChild(_root);
+    	   switch(choice){
+    		   case "new" :    this._document = builder.newDocument();
+    	                       _root = this._document.createElement("root");
+    	                       this._document.appendChild(_root);
+    	                       break;
+    		   case "append":  this._document=builder.parse(FILE_PATH);
+    		                   _root=this._document.getDocumentElement();
+    	   }
        }
        
        public void setConfiguration(){
