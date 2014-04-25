@@ -25,6 +25,8 @@ public class WriteConfiguration extends BasicConfiguration
     	                       break;
     		   case "append":  this._document=builder.parse(FILE_PATH);
     		                   _root=this._document.getDocumentElement();
+    		                   break;
+    		    default:       break;
     	   }
        }
        
@@ -171,7 +173,4 @@ public class WriteConfiguration extends BasicConfiguration
   			e.printStackTrace();
   		}
    	 }
-       public void appendConfiguration(){
-    	    
-      }
 }
