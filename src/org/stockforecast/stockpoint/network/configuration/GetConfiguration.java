@@ -13,10 +13,10 @@ public class GetConfiguration {
 		RC=new ReadConfiguration();
 	}
 	public ArrayList<WebAttribute> getWebAttribute(){
-	   return (ArrayList<WebAttribute>) webAttribute;
-	}
-	public void setWebAttribute(){
 		webAttribute=RC.getConfiguration();
+	    return (ArrayList<WebAttribute>) webAttribute;
 	}
+
+		
 	
  }

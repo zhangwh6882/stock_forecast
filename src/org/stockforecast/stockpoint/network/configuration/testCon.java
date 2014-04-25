@@ -16,9 +16,6 @@ public class testCon {
         RC.showDom();
         */
 		GetConfiguration LC=new GetConfiguration();
-		
-	    LC.setWebAttribute();
-	    
 	    for (WebAttribute WA:LC.getWebAttribute()){
 	    	System.out.println(WA.getURl());
 	    	System.out.println(WA.getAccept());
