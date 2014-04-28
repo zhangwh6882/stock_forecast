@@ -45,7 +45,7 @@ public class FetchHttpUrl {
 		  case "Cache-Control"   :connection.setRequestProperty("Cache-Control",Body);break;
 		  case "Connection"      :connection.setRequestProperty("Connection", Body);break;
 		  case "Host"            :connection.setRequestProperty("Host", Body);break;
-		  case "User-agent"      :connection.setRequestProperty("User-agent", Body);break;
+		  case "User-Agent"      :connection.setRequestProperty("User-agent", Body);break;
 		  case "X-Forwarded-For" :connection.setRequestProperty("X-Forwarded-For", Body);break;
 		  case "Referer"         :connection.setRequestProperty("Referer",Body);break;
 		  default: throw new  Exception("没想好");

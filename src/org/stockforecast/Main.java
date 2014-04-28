@@ -1,5 +1,9 @@
 package org.stockforecast;
 
-public class Main {
+import org.stockforecast.control.StockForecastControl;
 
+public class Main {
+     public static void main(String args[]){
+    	 new StockForecastControl().start();
+     }
 }

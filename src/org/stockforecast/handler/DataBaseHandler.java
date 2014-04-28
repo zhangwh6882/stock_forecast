@@ -4,12 +4,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import org.stockforecast.dbase.DataBase;
 
-public class DataBaseHandler
+public final class DataBaseHandler
 {
-    public DataBaseHandler(){
+    static{
     	
     }
-    public void handler(ArrayList<String> list){
+    public static void handler(ArrayList<String> list){
     	int choice=list.size();
     	switch(choice){
     		case 3:DataBase.InsertSEInfo(list);break;
@@ -18,7 +18,7 @@ public class DataBaseHandler
     	}
     }
     
-    public ArrayList<String> handler() throws SQLException{
+    public static ArrayList<String> handler() throws SQLException{
     	ArrayList<String> stocklist=null;
     	stocklist=DataBase.SelectSEInfo();
     	return stocklist;

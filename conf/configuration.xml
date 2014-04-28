@@ -1,52 +1,68 @@
 <?xml version="1.0" encoding="GB2312" standalone="no"?>
 <root>
-<WebSite name="huxuehan">
-<HostURL>www.huxuehan.com</HostURL>
-<Parameter status="3">
-<child name="hu">1</child>
-<child name="xue">2</child>
-<child name="han">3</child>
-<child name="shen">4</child>
-</Parameter>
-<RequestHeader>
-<child name="Accept">a</child>
-<child name="Accept-Encoding">b</child>
-<child name="Accept-Language">c</child>
-<child name="Cache-Control">d</child>
-<child name="Connection">e</child>
-<child name="Host">f</child>
-<child name="User-agent">g</child>
-<child name="X-Forwarded-For">h</child>
-<child name="Referer">i</child>
-</RequestHeader>
-<SendMethod>POSt</SendMethod>
-<Regex>
-<stockname>aa</stockname>
-<stockcode>bb</stockcode>
-</Regex>
-</WebSite>
-<WebSite name="xuehanhu">
-<HostURL>www.xuehan.hu</HostURL>
-<Parameter status="3">
-<child name="xue">1</child>
-<child name="han">2</child>
-<child name="hu">3</child>
-</Parameter>
+<WebSite name="SHSE">
+<HostURL>http://www.sse.com.cn/js/common/ssesuggestdata.js</HostURL>
+<Parameter status="1"/>
 <RequestHeader>
 <child name="Accept"/>
-<child name="Accept-Encoding">bb</child>
-<child name="Accept-Language">d</child>
-<child name="Cache-Control">d</child>
-<child name="Connection">e</child>
-<child name="Host">f</child>
-<child name="User-agent">x</child>
-<child name="X-Forwarded-For">s</child>
-<child name="Referer">x</child>
+<child name="Accept-Encoding"/>
+<child name="Accept-Language"/>
+<child name="Cache-Control"/>
+<child name="Connection"/>
+<child name="Host"/>
+<child name="User-agent">Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.116 Safari/537.36</child>
+<child name="X-Forwarded-For"/>
+<child name="Referer"/>
 </RequestHeader>
 <SendMethod>GET</SendMethod>
 <Regex>
-<stockname>sfvsse</stockname>
-<stockcode>xxdfsaa</stockcode>
+<stockname>aaaa</stockname>
+<stockcode>bbbb</stockcode>
+</Regex>
+</WebSite>
+<WebSite name="SZSE">
+<HostURL>http://www.szse.cn/szseWeb/FrontController.szse</HostURL>
+<Parameter status="3">
+<child name="ACTIONID">7</child>
+<child name="CATALOGID">1111</child>
+<child name="TABKEY">tab1</child>
+<child name="tab1PAGENUM">1</child>
+</Parameter>
+<RequestHeader>
+<child name="Accept">text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</child>
+<child name="Accept-Encoding"/>
+<child name="Accept-Language">en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4</child>
+<child name="Cache-Control">max-age=0</child>
+<child name="Connection">keep-alive</child>
+<child name="Host">www.szse.cn</child>
+<child name="User-agent">Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.116 Safari/537.36</child>
+<child name="X-Forwarded-For"/>
+<child name="Referer"/>
+</RequestHeader>
+<SendMethod>GET</SendMethod>
+<Regex>
+<stockname>aaaa</stockname>
+<stockcode>bbbb</stockcode>
+</Regex>
+</WebSite>
+<WebSite name="sina">
+<HostURL>http://hq.sinajs.cn/list</HostURL>
+<Parameter status="1"/>
+<RequestHeader>
+<child name="Accept">text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</child>
+<child name="Accept-Encoding">gzip,deflate,sdch</child>
+<child name="Accept-Language">en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4</child>
+<child name="Cache-Control">max-age=0</child>
+<child name="Connection">keep-alive</child>
+<child name="Host">hq.sinajs.cn</child>
+<child name="User-agent">Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.116 Safari/537.36</child>
+<child name="X-Forwarded-For"/>
+<child name="Referer"/>
+</RequestHeader>
+<SendMethod>GET</SendMethod>
+<Regex>
+<stockname>aaaa</stockname>
+<stockcode>bbbb</stockcode>
 </Regex>
 </WebSite>
 </root>

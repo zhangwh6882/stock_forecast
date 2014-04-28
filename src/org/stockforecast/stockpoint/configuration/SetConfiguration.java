@@ -7,7 +7,7 @@ import org.xml.sax.SAXException;
 public class SetConfiguration {
 	private WriteConfiguration _WC=null;
 	public SetConfiguration(String choice) throws IOException, TransformerException, SAXException{
-		_WC=new WriteConfiguration("append");
+		_WC=new WriteConfiguration(choice);
 	}
 	public void set(){
 	    _WC.setConfiguration();
