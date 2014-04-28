@@ -41,7 +41,8 @@ public class WriteConfiguration extends BasicConfiguration
        }
        /*设置抓取的网站的名称*/
        private void setWebsiteName(){
-      	 System.out.print("输入抓取的网站的名称:");
+      	 System.out.println("----------------------输入抓取的网站的名称-----------------------");
+      	 System.out.print("名称：");
    		 String body=_scanner.nextLine();
       	 _Website=_document.createElement(WEBSITE);
          _Website.setAttribute("name", body);
@@ -49,7 +50,8 @@ public class WriteConfiguration extends BasicConfiguration
    	 }
    /*设置要抓去的网站的网址*/    
        private void setUrl(){
-   		System.out.print("输入网址:");
+   		System.out.println("------------------------输入网址-------------------------------");
+   		System.out.print("网址:");
   		String body=_scanner.nextLine();
    		_HostURL=_document.createElement(HOST_URL);
    		_HostURL.setTextContent(body);
