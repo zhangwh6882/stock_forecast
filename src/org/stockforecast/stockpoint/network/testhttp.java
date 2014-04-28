@@ -1,4 +1,4 @@
-package org.stockforecast.stockpoint.network.fetch;
+package org.stockforecast.stockpoint.network;
 
 import java.io.IOException;
 

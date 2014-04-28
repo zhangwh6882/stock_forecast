@@ -1,4 +1,4 @@
-package org.stockforecast.stockpoint.network.configuration;
+package org.stockforecast.stockpoint.configuration;
 
 public interface Configuration
 {
