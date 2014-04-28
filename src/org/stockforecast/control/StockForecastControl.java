@@ -11,7 +11,7 @@ import org.xml.sax.SAXException;
 public class StockForecastControl{
 	Timer timer;
 	Scanner scanner=new Scanner(System.in);
-	private final int aDay=1000*60*60*24;
+	private final int oneDay=1000*60*60*24;
 	public StockForecastControl(){
 		
 	}
@@ -28,7 +28,7 @@ public class StockForecastControl{
 			e.printStackTrace();
 		  }
 	    }
-	    timer.schedule(new oneDayTask(), 0, aDay);	
+	    timer.schedule(new oneDayTask(), 0, oneDay);	
 		
 	}
 	class oneDayTask extends TimerTask{
@@ -36,13 +36,13 @@ public class StockForecastControl{
     	 
 		 }
 	}
-	
+	/*九点到11点半需要做的任务*/
 	class amTask extends TimerTask{
 		public void run(){
 	    	 
 		 }
 	}
-	
+	/*一点到三点需要做的任务*/
 	class pmTask extends TimerTask{
 		public void run(){
 	    	 

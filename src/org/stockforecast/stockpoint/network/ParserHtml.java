@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
  * 
  * */
 public class ParserHtml {
-      String regex="";
       String  _stockcodeRegex;
       String  _stocknameRegex;
       Pattern _pattern; 
