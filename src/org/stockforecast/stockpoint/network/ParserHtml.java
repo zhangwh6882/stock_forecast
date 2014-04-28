@@ -5,8 +5,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 /**
  * 上海证券交易所stockname正则:val2:"(.*?)" stockcode正则:val:"(.*?)"
- * 深圳证券交易所stockname正则：<a href='http://disclosure.*?'><u>(.*?)</u></a> stockceod 正则:<a href="http://www.*?"><u>(.*?)</u></a>
- * 
+ * 深圳证券交易所stockname正则："href='http://disclosure.*?u>(.*?)\S/u> stockceod 正则: href="http://www.*?u>(.*?)\S/u>
+ * 新浪股票数据接口http://hq.sinajs.cn/list=sh601006
  * 
  * */
 public class ParserHtml {

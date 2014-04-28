@@ -16,8 +16,8 @@
 </RequestHeader>
 <SendMethod>GET</SendMethod>
 <Regex>
-<stockname>aaaa</stockname>
-<stockcode>bbbb</stockcode>
+<stockname>val2:"(.*?)"</stockname>
+<stockcode>val:"(.*?)"</stockcode>
 </Regex>
 </WebSite>
 <WebSite name="SZSE">
@@ -41,8 +41,8 @@
 </RequestHeader>
 <SendMethod>GET</SendMethod>
 <Regex>
-<stockname>aaaa</stockname>
-<stockcode>bbbb</stockcode>
+<stockname>"href='http://disclosure.*?u>(.*?)\S/u></stockname>
+<stockcode> href="http://www.*?u>(.*?)\S/u></stockcode>
 </Regex>
 </WebSite>
 <WebSite name="sina">
@@ -61,8 +61,8 @@
 </RequestHeader>
 <SendMethod>GET</SendMethod>
 <Regex>
-<stockname>aaaa</stockname>
-<stockcode>bbbb</stockcode>
+<stockname>var .*?=".*?,.*?,.*?,(.*?),.*?</stockname>
+<stockcode></stockcode>
 </Regex>
 </WebSite>
 </root>

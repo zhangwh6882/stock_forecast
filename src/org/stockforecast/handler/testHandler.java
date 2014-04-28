@@ -1,8 +1,12 @@
 package org.stockforecast.handler;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import org.stockforecast.dbase.DataBase;
+
+import javax.xml.transform.TransformerException;
+
+import org.stockforecast.common.WebAttribute;
 
 /**
  * 1 运行程序时先设置配置文件
@@ -18,9 +22,13 @@ import org.stockforecast.dbase.DataBase;
 public class testHandler
 {
 	
-	 public static void main(String args[]) throws SQLException{
-		    DataBaseHandler adh=new DataBaseHandler();
-	    	ArrayList<String> seInfo=new ArrayList<String>();
+	 public static void main(String args[]) throws SQLException, IOException, TransformerException{
+	    	System.out.println("1111");
+		    ArrayList<String> seInfo=new ArrayList<String>();
+	    	ArrayList<WebAttribute> wa=ConfigurationHandler.get();
+	    	System.out.println(wa.get(1).getStockNameRegex());
+	    	
+	    	
 	    /*
 	     *  seInfo.add("bbddbb");
 	    	seInfo.add("cbcccc");
@@ -29,12 +37,13 @@ public class testHandler
 	     	System.out.println(GetTime.getYear()+"_"+GetTime.getMonth()+"_"+GetTime.getDay()+"_"+GetTime.getHour()+"_"+GetTime.getMinute());
 	     */
 	     //  seInfo=DataBase.SelectSEInfo();
-	    	seInfo.add("241911");
+	    /*	seInfo.add("241911");
 	    	seInfo.add("1111");
 	    	seInfo.add("11");
 	    	seInfo.add("11");
 	    	seInfo.add("11111111");
 	    	seInfo.add("2003.11");
-	    	adh.handler(seInfo);
+	    	DataBaseHandler.handler(seInfo);*/
+	    	
 	    }
 }
