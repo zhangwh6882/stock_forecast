@@ -41,8 +41,8 @@
 </RequestHeader>
 <SendMethod>GET</SendMethod>
 <Regex>
-<stockname>"href='http://disclosure.*?u>(.*?)\S/u></stockname>
-<stockcode> href="http://www.*?u>(.*?)\S/u></stockcode>
+<stockname>href='http://disclosure.*?u>(.*?)\S/u></stockname>
+<stockcode>href="http://www.*?u>(.*?)\S/u></stockcode>
 </Regex>
 </WebSite>
 <WebSite name="sina">

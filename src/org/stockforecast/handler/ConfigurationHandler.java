@@ -17,7 +17,7 @@ public final class ConfigurationHandler
     	 sc.set();
      }
      
-     public static ArrayList<WebAttribute> get() throws IOException, TransformerException{
+     public static ArrayList<WebAttribute> getWebConfiguration() throws IOException, TransformerException{
     	 ArrayList<WebAttribute> wa=null;
     	 GetConfiguration gc=new GetConfiguration();
     	 wa=gc.getWebAttribute(); 

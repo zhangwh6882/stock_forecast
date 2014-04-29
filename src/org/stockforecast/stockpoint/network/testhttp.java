@@ -1,5 +1,11 @@
 package org.stockforecast.stockpoint.network;
 
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Map.Entry;
+import org.stockforecast.common.WebAttribute;
+import org.stockforecast.handler.ConfigurationHandler;
+
 
 public class testhttp {
 
@@ -15,7 +21,15 @@ public class testhttp {
 		fetchHttpUrl.SetRequestHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.116 Safari/537.36");
         String text=fetchHttpUrl.FetchHtmlText("GBK");
         System.out.println(text);
-
+       
+        ArrayList<WebAttribute> wa=ConfigurationHandler.getWebConfiguration();
+        System.out.println(wa.get(1).getStockCodeRegex()+"\n"+wa.get(1).getStockNameRegex());
+        ParserHtml ph=new ParserHtml(text,wa.get(1).getStockCodeRegex(),wa.get(1).getStockNameRegex());
+        //ParserHtml ph=new ParserHtml(text,"<u>.*?</u>","<u>.*?</u>");
+        Map<String, String> map = ph.returnMap();
+        for(Entry<String, String> entry:map.entrySet()){
+        	System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());  
+    	}
 	}
 
 }

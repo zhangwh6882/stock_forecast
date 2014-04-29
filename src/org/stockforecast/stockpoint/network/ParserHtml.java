@@ -1,6 +1,8 @@
 package org.stockforecast.stockpoint.network;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 /**
@@ -12,22 +14,38 @@ import java.util.regex.Pattern;
 public class ParserHtml {
       String  _stockcodeRegex;
       String  _stocknameRegex;
-      Pattern _pattern; 
-      Matcher _matcher;
-      String _htmltext;
+      String  _stockpointRegex;
+      String  _htmltext;
       public ParserHtml(String htmltext,String stockcodeRegex,String stocknameRegex){
     	  _htmltext=htmltext;
     	  _stockcodeRegex=stockcodeRegex;
     	  _stocknameRegex=stocknameRegex;
      }
-     public ArrayList<String> returnStockName(){
-		return null;
-    	 
+      
+      public  ParserHtml(String htmltext,String stockpointRegex){
+    	  _htmltext=htmltext;
+    	  _stockpointRegex=stockpointRegex;
+      }
+     public BigDecimal returnStockPoint(){
+    	 Pattern prsp=Pattern.compile(_stockpointRegex);	
+    	 Matcher mrsp=prsp.matcher(_htmltext);
+    	 BigDecimal bd = null;
+    	 while(mrsp.find()){
+    		 bd=new BigDecimal(mrsp.group(1));
+    	 }
+    	 return bd; 	 
      }
      
-     public ArrayList<String> returnStockCode(){
-		return null;
-    	 
+     public Map<String, String> returnMap(){
+		Map<String,String> nameAndCode=new HashMap<String,String>();
+		Pattern psn=Pattern.compile(_stocknameRegex);
+		Pattern psc=Pattern.compile(_stockcodeRegex);
+		Matcher msn=psn.matcher(_htmltext);
+		Matcher msc=psc.matcher(_htmltext);
+		while(msn.find()&&msc.find()){
+			nameAndCode.put(msn.group(1), msc.group(1));
+		}
+       return nameAndCode; 
      }
      
 }

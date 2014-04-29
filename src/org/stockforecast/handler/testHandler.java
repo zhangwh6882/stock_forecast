@@ -23,11 +23,25 @@ public class testHandler
 {
 	
 	 public static void main(String args[]) throws SQLException, IOException, TransformerException{
-	    	System.out.println("1111");
+	    /*
+		    System.out.println("1111");
 		    ArrayList<String> seInfo=new ArrayList<String>();
-	    	ArrayList<WebAttribute> wa=ConfigurationHandler.get();
-	    	System.out.println(wa.get(1).getStockNameRegex());
-	    	
+	    	ArrayList<WebAttribute> wa=ConfigurationHandler.getWebConfiguration();
+	    	System.out.println(wa.get(2).getStockNameRegex());
+	    */
+		 NetWorkHandler nwh=new NetWorkHandler();
+		 if(nwh._wa==null){
+			 System.out.println("111");
+		 }
+		 for(int i=0;i<nwh._wa.size();i++){
+			 String body;
+			 if(( body=nwh._wa.get(i).getParameter())!=null){
+				 System.out.println(body);
+			 }
+			 else{
+				 System.out.println("null");
+			 }
+		 }
 	    	
 	    /*
 	     *  seInfo.add("bbddbb");
