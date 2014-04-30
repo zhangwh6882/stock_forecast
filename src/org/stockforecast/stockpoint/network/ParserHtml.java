@@ -32,6 +32,7 @@ public class ParserHtml {
     	 BigDecimal bd = null;
     	 while(mrsp.find()){
     		 bd=new BigDecimal(mrsp.group(1));
+    		 //System.out.println(mrsp.group(1));
     	 }
     	 return bd; 	 
      }

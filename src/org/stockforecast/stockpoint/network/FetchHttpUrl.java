@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.HttpURLConnection;
+import java.util.zip.GZIPInputStream;
 /**
  * 获取网页正文
  * 支持部分RequestHeader参数的设置
@@ -16,6 +17,7 @@ public class FetchHttpUrl {
      private  URL url;
      private  HttpURLConnection connection=null;
      public  BufferedReader reader = null;
+     private boolean _encode=false;
      public FetchHttpUrl(){
     	 
      }
@@ -51,13 +53,22 @@ public class FetchHttpUrl {
 		  default: throw new  Exception("没想好");
 		 }                		 
 	 }
-	 
+	 public void setEncode(boolean encode){
+		 _encode=encode;
+	 }
 	 public String FetchHtmlText(String ContentType) throws IOException{ 
     	 String line=null;
     	 String text=null;
 		 connection.connect();
-    	 reader=new BufferedReader(new InputStreamReader(
-                 connection.getInputStream(),ContentType));
+		 if(_encode==true)
+    	   reader=new BufferedReader(new InputStreamReader(
+    			 new GZIPInputStream(connection.getInputStream())
+                 ));
+		 else{
+			 reader=new BufferedReader(new InputStreamReader(
+	    			 connection.getInputStream()
+	                 ));	 
+		 }
     	 while((line=reader.readLine())!=null){
     		 text=text+line;
     	 }

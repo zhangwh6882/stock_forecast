@@ -23,6 +23,7 @@ public class testhttp {
         System.out.println(text);
        
         ArrayList<WebAttribute> wa=ConfigurationHandler.getWebConfiguration();
+        System.out.println(wa.get(1).getURl()+wa.get(1).getParameter());
         System.out.println(wa.get(1).getStockCodeRegex()+"\n"+wa.get(1).getStockNameRegex());
         ParserHtml ph=new ParserHtml(text,wa.get(1).getStockCodeRegex(),wa.get(1).getStockNameRegex());
         //ParserHtml ph=new ParserHtml(text,"<u>.*?</u>","<u>.*?</u>");

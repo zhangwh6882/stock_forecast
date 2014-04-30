@@ -3,9 +3,7 @@ package org.stockforecast.handler;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import javax.xml.transform.TransformerException;
-
 import org.stockforecast.common.WebAttribute;
 
 /**
@@ -22,7 +20,7 @@ import org.stockforecast.common.WebAttribute;
 public class testHandler
 {
 	
-	 public static void main(String args[]) throws SQLException, IOException, TransformerException{
+	 public static void main(String args[]) throws Exception{
 	    /*
 		    System.out.println("1111");
 		    ArrayList<String> seInfo=new ArrayList<String>();
@@ -30,18 +28,8 @@ public class testHandler
 	    	System.out.println(wa.get(2).getStockNameRegex());
 	    */
 		 NetWorkHandler nwh=new NetWorkHandler();
-		 if(nwh._wa==null){
-			 System.out.println("111");
-		 }
-		 for(int i=0;i<nwh._wa.size();i++){
-			 String body;
-			 if(( body=nwh._wa.get(i).getParameter())!=null){
-				 System.out.println(body);
-			 }
-			 else{
-				 System.out.println("null");
-			 }
-		 }
+		
+		// System.out.println(nwh.ReturnPoint("600000").doubleValue());
 	    	
 	    /*
 	     *  seInfo.add("bbddbb");
