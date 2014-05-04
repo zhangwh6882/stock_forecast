@@ -44,6 +44,8 @@ public class WriteConfiguration extends BasicConfiguration
       	 System.out.println("----------------------输入抓取的网站的名称-----------------------");
       	 System.out.print("名称：");
    		 String body=_scanner.nextLine();
+   		 if(body.equals("\n"))
+   			 System.out.print("dddd");
       	 _Website=_document.createElement(WEBSITE);
          _Website.setAttribute("name", body);
       	 _root.appendChild(_Website); 

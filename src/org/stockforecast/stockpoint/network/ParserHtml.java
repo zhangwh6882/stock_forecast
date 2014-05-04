@@ -26,25 +26,29 @@ public class ParserHtml {
     	  _htmltext=htmltext;
     	  _stockpointRegex=stockpointRegex;
       }
-     public BigDecimal returnStockPoint(){
+     public HashMap<String,String> returnStockPoint(){
     	 Pattern prsp=Pattern.compile(_stockpointRegex);	
     	 Matcher mrsp=prsp.matcher(_htmltext);
-    	 BigDecimal bd = null;
+    	 HashMap<String,String> sbd = new HashMap<String,String>();
     	 while(mrsp.find()){
-    		 bd=new BigDecimal(mrsp.group(1));
+    		 sbd.put(mrsp.group(1),mrsp.group(2));
     		 //System.out.println(mrsp.group(1));
     	 }
-    	 return bd; 	 
+    	 return sbd; 	 
      }
      
-     public Map<String, String> returnMap(){
+     public Map<String, String> returnMap(String type){
 		Map<String,String> nameAndCode=new HashMap<String,String>();
 		Pattern psn=Pattern.compile(_stocknameRegex);
 		Pattern psc=Pattern.compile(_stockcodeRegex);
 		Matcher msn=psn.matcher(_htmltext);
 		Matcher msc=psc.matcher(_htmltext);
 		while(msn.find()&&msc.find()){
-			nameAndCode.put(msn.group(1), msc.group(1));
+			   if(type.equals("SZSE"))
+			       nameAndCode.put(msn.group(1), "sz"+msc.group(1));
+			   else if(type.equals("SHSE"))
+				   nameAndCode.put(msn.group(1), "sh"+msc.group(1));
+			
 		}
        return nameAndCode; 
      }

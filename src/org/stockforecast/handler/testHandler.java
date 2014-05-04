@@ -3,6 +3,8 @@ package org.stockforecast.handler;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 import javax.xml.transform.TransformerException;
 import org.stockforecast.common.WebAttribute;
 
@@ -18,34 +20,23 @@ import org.stockforecast.common.WebAttribute;
 
  */
 public class testHandler
-{
-	
+{	/*
 	 public static void main(String args[]) throws Exception{
-	    /*
-		    System.out.println("1111");
-		    ArrayList<String> seInfo=new ArrayList<String>();
-	    	ArrayList<WebAttribute> wa=ConfigurationHandler.getWebConfiguration();
-	    	System.out.println(wa.get(2).getStockNameRegex());
-	    */
 		 NetWorkHandler nwh=new NetWorkHandler();
-		
-		// System.out.println(nwh.ReturnPoint("600000").doubleValue());
-	    	
-	    /*
-	     *  seInfo.add("bbddbb");
-	    	seInfo.add("cbcccc");
-	    	seInfo.add("bbbb");
-	    	DataBase.InsertSEInfo(seInfo);
-	     	System.out.println(GetTime.getYear()+"_"+GetTime.getMonth()+"_"+GetTime.getDay()+"_"+GetTime.getHour()+"_"+GetTime.getMinute());
-	     */
-	     //  seInfo=DataBase.SelectSEInfo();
-	    /*	seInfo.add("241911");
-	    	seInfo.add("1111");
-	    	seInfo.add("11");
-	    	seInfo.add("11");
-	    	seInfo.add("11111111");
-	    	seInfo.add("2003.11");
-	    	DataBaseHandler.handler(seInfo);*/
-	    	
-	    }
+		 HashMap<String,String> map=new HashMap<String,String>();
+		 map=nwh.ReturnNameAndCode();
+		 for(Entry<String, String> entry:map.entrySet()){
+			 if(entry.getValue().startsWith("sz300")||entry.getValue().startsWith("sh600")||
+			    entry.getValue().startsWith("sh601")||entry.getValue().startsWith("sh900")||
+				entry.getValue().startsWith("sz000")||entry.getValue().startsWith("sz002")||
+				entry.getValue().startsWith("sz200")||entry.getValue().startsWith("sh730")){
+			         ArrayList<String> list=new ArrayList<String>();
+			         list.add(entry.getKey());
+			         list.add(entry.getValue());
+			         list.add("null");
+			         DataBaseHandler.handler(list);
+			 }
+	     }
+    }
+	*/ 
 }

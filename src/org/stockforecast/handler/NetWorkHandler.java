@@ -4,11 +4,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import java.util.Map;
 import javax.xml.transform.TransformerException;
-
 import org.stockforecast.common.WebAttribute;
-import org.stockforecast.dbase.DataBase;
 import org.stockforecast.stockpoint.network.FetchHttpUrl;
 import org.stockforecast.stockpoint.network.ParserHtml;
 
@@ -26,36 +24,39 @@ public class NetWorkHandler
     			continue;
     		}
     		if(_wa.get(i).isChangeable()==true){
-    			nameAndCode.putAll(parameterIsUnchangeable(i));
+    			nameAndCode.putAll(parameterIsChangeable(i));
     			continue;
     		}
     		else{
-    			nameAndCode.putAll(parameterIsChangeable(i));
+    			nameAndCode.putAll(parameterIsUnchangeable(i));
     			continue;
     		}
     	 }
     	 return nameAndCode;
      }
-     public HashMap<String,BigDecimal> ReturnPoint(String StockCode) throws Exception{
-    	 ArrayList<String> stockCode=DataBase.SelectSEInfo();
-    	 HashMap<String,BigDecimal> codeAndPoint=new HashMap<String,BigDecimal>();
+     public HashMap<String,String> ReturnPoint() throws Exception{
+    	 ArrayList<String> stockCode=DataBaseHandler.handler();
+    	 HashMap<String,String> codeAndPoint=new HashMap<String,String>();
     	 for(int i=0;i<stockCode.size();i++){
-    	 String url= _wa.get(2).getURl()+"=sh"+stockCode.get(i);
-    	 _fetchHttpUrl=new FetchHttpUrl(url);
-    	 _fetchHttpUrl.SetMethod(_wa.get(2).getMethod());
-    	 setRequestHeader(2);
-    	 String text=_fetchHttpUrl.FetchHtmlText("GBK");
-    	 ParserHtml ph=new ParserHtml(text,_wa.get(2).getStockNameRegex());
-    	 codeAndPoint.put(stockCode.get(i), ph.returnStockPoint());
-     }
-          return codeAndPoint;
+    	     String  url= _wa.get(2).getURl()+"="+stockCode.get(i);
+    	     _fetchHttpUrl=new FetchHttpUrl(url);
+        	 _fetchHttpUrl.SetMethod(_wa.get(2).getMethod());
+        	 setRequestHeader(2);
+        	 String text=_fetchHttpUrl.FetchHtmlText("GBK");
+        	 ParserHtml ph=new ParserHtml(text,_wa.get(2).getStockNameRegex());
+        	 codeAndPoint.putAll(ph.returnStockPoint());
+        	 System.out.println(url);
+    	 }
+    	// System.out.println(url);
+    	 
+         return codeAndPoint;
     	 
      }
      
      private void setRequestHeader(int choice) throws Exception{
     	 if(_wa.get(choice).getAccept()!=null)
     		 _fetchHttpUrl.SetRequestHeader("Accept", _wa.get(choice).getAccept());
-         if(_wa.get(choice).getAccept_Encoding()!=null){
+         if(_wa.get(choice).getAccept_Encoding().equals("gzip,deflate,sdch")){
         	 _fetchHttpUrl.setEncode(true);
         	 _fetchHttpUrl.SetRequestHeader("Accept-Encoding", _wa.get(choice).getAccept_Encoding());
          }
@@ -80,12 +81,13 @@ public class NetWorkHandler
      public HashMap<String,String> parameterIsNull(int index) throws Exception{
 		 HashMap<String,String> nameAndCode=new HashMap<String,String>();
 		 String url=_wa.get(index).getURl();
+		 System.out.println(url);
 		 _fetchHttpUrl=new FetchHttpUrl(url);
 		 _fetchHttpUrl.SetMethod(_wa.get(index).getMethod());
 		 setRequestHeader(index);
 		 String text=_fetchHttpUrl.FetchHtmlText("UTF-8");
 		 ParserHtml ph=new ParserHtml(text,_wa.get(index).getStockCodeRegex(),_wa.get(index).getStockNameRegex());
-		 nameAndCode.putAll(ph.returnMap());
+		 nameAndCode.putAll(ph.returnMap(_wa.get(index).getWebName()));
     	 return nameAndCode;
     	 
      }
@@ -97,13 +99,30 @@ public class NetWorkHandler
 		 setRequestHeader(index);
 		 String text=_fetchHttpUrl.FetchHtmlText("UTF-8");
 		 ParserHtml ph=new ParserHtml(text,_wa.get(index).getStockCodeRegex(),_wa.get(index).getStockNameRegex());
-		 nameAndCode.putAll(ph.returnMap());
+		 nameAndCode.putAll(ph.returnMap(_wa.get(index).getWebName()));
     	 return null;
 		
     	 
      }
-     public HashMap<String,String> parameterIsChangeable(int index){
-		return null;
+     public HashMap<String,String> parameterIsChangeable(int index) throws Exception{
+    	 HashMap<String,String> nameAndCode=new HashMap<String,String>();
+    	 String url=_wa.get(index).getURl()+_wa.get(index).getParameter();
+    	 for(int i=1;;i++){
+    		 String temp_url=url+i;
+    		 _fetchHttpUrl=new FetchHttpUrl(temp_url);
+    		 _fetchHttpUrl.SetMethod(_wa.get(index).getMethod());
+    		 setRequestHeader(index);
+    		 System.out.println(temp_url);
+    		 String text=_fetchHttpUrl.FetchHtmlText("GBK");
+    		 ParserHtml ph=new ParserHtml(text,_wa.get(index).getStockCodeRegex(),_wa.get(index).getStockNameRegex());
+    		 Map<String,String> temp_map=ph.returnMap(_wa.get(index).getWebName());
+    		 if(temp_map.isEmpty()){
+    			  break;
+    		 }
+    		 else
+    			 nameAndCode.putAll(temp_map);
+    	 }
+		return nameAndCode;
     	 
      }
 }

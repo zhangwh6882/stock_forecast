@@ -23,10 +23,10 @@ public interface BasicDB {
    public final String _setStockPointInfo="insert into Stock_Point (StockCode,Year,Month,day,clock,StockPoint) values(?,?,?,?,?,?)";
    
    /*证券交易所(SEInfo)数据字段*/
-   public final String _seInfoTable="(StockName varchar(50),StockCode char(6),StockExchangeType char(4),primary key(StockCode))";
+   public final String _seInfoTable="(StockName varchar(50),StockCode char(8),StockExchangeType char(4),primary key(StockCode))";
   
    /*创建数据表与数据库*/
-   public final String _createStockPointTable="CREATE TABLE Stock_Point(StockCode char(6),Year char(4),Month char(2),day char(2),clock char(8),StockPoint varchar(10),PRIMARY KEY(StockCode,Year,Month,day,clock))";
+   public final String _createStockPointTable="CREATE TABLE Stock_Point(StockCode char(8),Year char(4),Month char(2),day char(2),clock char(8),StockPoint varchar(10),PRIMARY KEY(StockCode,Year,Month,day,clock))";
    public final String _createDataBase="CREATE DATABASE StockForecast";
    public final String _useDataBase="USE StockForecast";
   

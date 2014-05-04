@@ -12,6 +12,8 @@ public class StockForecastControl{
 	Timer timer;
 	Scanner scanner=new Scanner(System.in);
 	private final int oneDay=1000*60*60*24;
+	private final int oneSecond=1000;
+	private final int oneMinute=1000*60;
 	public StockForecastControl(){
 		
 	}

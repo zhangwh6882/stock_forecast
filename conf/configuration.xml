@@ -4,12 +4,12 @@
 <HostURL>http://www.sse.com.cn/js/common/ssesuggestdata.js</HostURL>
 <Parameter status="1"/>
 <RequestHeader>
-<child name="Accept"/>
+<child name="Accept">text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</child>
 <child name="Accept-Encoding"/>
-<child name="Accept-Language"/>
-<child name="Cache-Control"/>
-<child name="Connection"/>
-<child name="Host"/>
+<child name="Accept-Language">en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4</child>
+<child name="Cache-Control">max-age=0</child>
+<child name="Connection">keep-alive</child>
+<child name="Host">www.sse.com.cn</child>
 <child name="User-agent">Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.116 Safari/537.36</child>
 <child name="X-Forwarded-For"/>
 <child name="Referer"/>
@@ -50,7 +50,7 @@
 <Parameter status="1"/>
 <RequestHeader>
 <child name="Accept">text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</child>
-<child name="Accept-Encoding">gzip,deflate,sdch</child>
+<child name="Accept-Encoding"/>
 <child name="Accept-Language">en-US,en;q=0.8,zh-CN;q=0.6,zh;q=0.4</child>
 <child name="Cache-Control">max-age=0</child>
 <child name="Connection">keep-alive</child>
@@ -61,7 +61,7 @@
 </RequestHeader>
 <SendMethod>GET</SendMethod>
 <Regex>
-<stockname>var .*?=".*?,.*?,.*?,(.*?),.*?</stockname>
+<stockname>var hq_str_\S\S(.*?)=".*?,.*?,.*?,(.*?),.*?</stockname>
 <stockcode></stockcode>
 </Regex>
 </WebSite>

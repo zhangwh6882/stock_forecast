@@ -16,7 +16,6 @@ import java.util.zip.GZIPInputStream;
 public class FetchHttpUrl {
      private  URL url;
      private  HttpURLConnection connection=null;
-     public  BufferedReader reader = null;
      private boolean _encode=false;
      public FetchHttpUrl(){
     	 
@@ -57,16 +56,17 @@ public class FetchHttpUrl {
 		 _encode=encode;
 	 }
 	 public String FetchHtmlText(String ContentType) throws IOException{ 
+		 BufferedReader reader = null;
     	 String line=null;
     	 String text=null;
 		 connection.connect();
 		 if(_encode==true)
     	   reader=new BufferedReader(new InputStreamReader(
-    			 new GZIPInputStream(connection.getInputStream())
+    			 new GZIPInputStream(connection.getInputStream()),ContentType
                  ));
 		 else{
 			 reader=new BufferedReader(new InputStreamReader(
-	    			 connection.getInputStream()
+	    			 connection.getInputStream(),ContentType
 	                 ));	 
 		 }
     	 while((line=reader.readLine())!=null){

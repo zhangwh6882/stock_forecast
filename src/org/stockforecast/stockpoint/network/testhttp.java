@@ -19,7 +19,8 @@ public class testhttp {
 		fetchHttpUrl.SetRequestHeader("Connection", "keep-alive");
 		fetchHttpUrl.SetRequestHeader("Host","www.szse.cn");
 		fetchHttpUrl.SetRequestHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.116 Safari/537.36");
-        String text=fetchHttpUrl.FetchHtmlText("GBK");
+		fetchHttpUrl.setEncode(true);
+		String text=fetchHttpUrl.FetchHtmlText("GBK");
         System.out.println(text);
        
         ArrayList<WebAttribute> wa=ConfigurationHandler.getWebConfiguration();

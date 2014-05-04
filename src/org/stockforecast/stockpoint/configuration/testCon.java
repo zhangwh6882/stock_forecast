@@ -17,12 +17,10 @@ public class testCon {
         */
 		GetConfiguration LC=new GetConfiguration();
 	    for (WebAttribute WA:LC.getWebAttribute()){
-	    	System.out.println(WA.getURl());
-	    	System.out.println(WA.getAccept());
-	     	System.out.println(WA.getWebName());
-	    	System.out.println(WA.getMethod());
-	    	System.out.println(WA.getParameter());
+	    	if(WA.getAccept_Encoding()==null)
+	    		System.out.println("11");
 	    }
+	    System.out.println("11");
 	}
 
 }
