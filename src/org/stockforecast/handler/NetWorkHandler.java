@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import javax.xml.transform.TransformerException;
+
 import org.stockforecast.common.WebAttribute;
 import org.stockforecast.dbase.DataBase;
 import org.stockforecast.stockpoint.network.FetchHttpUrl;
@@ -87,8 +89,16 @@ public class NetWorkHandler
     	 return nameAndCode;
     	 
      }
-     public HashMap<String,String> parameterIsUnchangeable(int index){
-		return null;
+     public HashMap<String,String> parameterIsUnchangeable(int index) throws Exception{
+    	 HashMap<String,String> nameAndCode=new HashMap<String,String>();
+    	 String url=_wa.get(index).getURl()+_wa.get(index).getParameter();
+    	 _fetchHttpUrl=new FetchHttpUrl(url);
+		 _fetchHttpUrl.SetMethod(_wa.get(index).getMethod());
+		 setRequestHeader(index);
+		 String text=_fetchHttpUrl.FetchHtmlText("UTF-8");
+		 ParserHtml ph=new ParserHtml(text,_wa.get(index).getStockCodeRegex(),_wa.get(index).getStockNameRegex());
+		 nameAndCode.putAll(ph.returnMap());
+    	 return null;
 		
     	 
      }
