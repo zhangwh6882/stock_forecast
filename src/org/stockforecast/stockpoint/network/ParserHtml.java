@@ -1,6 +1,5 @@
 package org.stockforecast.stockpoint.network;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
