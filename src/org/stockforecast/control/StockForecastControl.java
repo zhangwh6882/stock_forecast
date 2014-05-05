@@ -51,12 +51,12 @@ public class StockForecastControl{
 			 getStockCodeTime.set(Calendar.MINUTE,30);
 			 getStockPointAM.set(Calendar.HOUR_OF_DAY,9);
 			 getStockPointAM.set(Calendar.MINUTE, 30);
-			 getStockPointPM.set(Calendar.HOUR_OF_DAY,17);
+			 getStockPointPM.set(Calendar.HOUR_OF_DAY,13);
 			 Timer getStockCodeTimer=new Timer();
 			 Timer getStockPointAMTimer=new Timer();
 			 Timer getStockPointPMTimer=new Timer();
-			// getStockCodeTimer.schedule(new getStockCode(),(getStockCodeTime.getTimeInMillis()-now.getTimeInMillis()));
-			// getStockPointAMTimer.schedule(new getStockPoint(),(getStockPointAM.getTimeInMillis()-now.getTimeInMillis()));	 
+			 getStockCodeTimer.schedule(new getStockCode(),(getStockCodeTime.getTimeInMillis()-now.getTimeInMillis()));
+			 getStockPointAMTimer.schedule(new getStockPoint(),(getStockPointAM.getTimeInMillis()-now.getTimeInMillis()));	 
 			 getStockPointPMTimer.schedule(new getStockPoint(),(getStockPointPM.getTimeInMillis()-now.getTimeInMillis()));
 		 }
 	}
@@ -120,7 +120,7 @@ public class StockForecastControl{
 				 if(new GetTime().getHour()==11&&new GetTime().getMinute()==30){
 					 taskPerTwoSecond.cancel();
 				     break;
-				 }else if(new GetTime().getHour()==18){
+				 }else if(new GetTime().getHour()==15){
 					 taskPerTwoSecond.cancel();
 				     break;     
 				 }
