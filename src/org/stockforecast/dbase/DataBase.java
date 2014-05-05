@@ -17,7 +17,7 @@ public final class DataBase implements BasicDB{
 	  * index 3：股票类型
 	  * */
 	 public static void InsertSEInfo(ArrayList<String> seInfo){
-		 String DBName=GetTime.getYear()+"_"+GetTime.getMonth()+"_"+GetTime.getDay()+"_SSHE";
+		 String DBName=new GetTime().getYear()+"_"+new GetTime().getMonth()+"_"+new GetTime().getDay()+"_SSHE";
 		 String setSEInfo="Insert into "+DBName+" (StockName,StockCode,StockExchangeType) VALUES(?,?,?)";
 		 PreparedStatement ps = null;
 		 try {
@@ -32,7 +32,7 @@ public final class DataBase implements BasicDB{
 	 
 	 public static ArrayList<String> SelectSEInfo() throws SQLException{
 		 ArrayList<String> stockCode = new ArrayList<String>();
-		 String DBName=GetTime.getYear()+"_"+GetTime.getMonth()+"_"+GetTime.getDay()+"_SSHE";
+		 String DBName=new GetTime().getYear()+"_"+new GetTime().getMonth()+"_"+new GetTime().getDay()+"_SSHE";
 		 String selectResult="SELECT StockCode FROM "+DBName;
 		 PreparedStatement ps = null;
 		 ps=DBHandler.conn.prepareStatement(selectResult);

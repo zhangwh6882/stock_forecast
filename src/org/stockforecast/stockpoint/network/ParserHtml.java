@@ -31,7 +31,6 @@ public class ParserHtml {
     	 HashMap<String,String> sbd = new HashMap<String,String>();
     	 while(mrsp.find()){
     		 sbd.put(mrsp.group(1),mrsp.group(2));
-    		 //System.out.println(mrsp.group(1));
     	 }
     	 return sbd; 	 
      }

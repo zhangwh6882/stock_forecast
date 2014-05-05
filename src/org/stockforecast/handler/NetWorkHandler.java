@@ -47,7 +47,7 @@ public class NetWorkHandler
         	 System.out.println(url);
     	 }
     	// System.out.println(url);
-    	 
+    	 stockCode=null;
          return codeAndPoint;
     	 
      }

@@ -10,7 +10,7 @@ package org.stockforecast.dbase;
  *数据表3:每天各种股票的数据
  *      数据库名称：STOCK_Point 
  *      字段：股票代码，年，月，日，当天时间（精确到秒），股指
- *      StockCode char(6)
+ *      StockCode char(8)
  *      Year      char(4)
  *      Month     char(2)
  *      day       char(2)

@@ -20,7 +20,7 @@ import org.stockforecast.common.WebAttribute;
 
  */
 public class testHandler
-{	/*
+{	
 	 public static void main(String args[]) throws Exception{
 		 NetWorkHandler nwh=new NetWorkHandler();
 		 HashMap<String,String> map=new HashMap<String,String>();
@@ -38,5 +38,5 @@ public class testHandler
 			 }
 	     }
     }
-	*/ 
+	
 }

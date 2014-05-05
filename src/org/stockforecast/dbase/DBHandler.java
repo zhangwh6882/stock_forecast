@@ -51,7 +51,7 @@ public final class DBHandler implements BasicDB{
      }
      
      public static void initSHSETable(){
-    	 String DBName=GetTime.getYear()+"_"+GetTime.getMonth()+"_"+GetTime.getDay()+"_SSHE";
+    	 String DBName=new GetTime().getYear()+"_"+new GetTime().getMonth()+"_"+new GetTime().getDay()+"_SSHE";
  		 String CreateTable="CREATE TABLE "+DBName+_seInfoTable;
  		 useDataBase();
     	 try {
