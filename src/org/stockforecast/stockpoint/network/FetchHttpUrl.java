@@ -73,6 +73,7 @@ public class FetchHttpUrl {
     		 text=text+line;
     	 }
     	 reader.close();
+    	 connection.disconnect();
 		 return text;
     }
 }

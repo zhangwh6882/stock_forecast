@@ -44,7 +44,7 @@ public class NetWorkHandler
         	 String text=_fetchHttpUrl.FetchHtmlText("GBK");
         	 ParserHtml ph=new ParserHtml(text,_wa.get(2).getStockNameRegex());
         	 codeAndPoint.putAll(ph.returnStockPoint());
-        	 System.out.println(url);
+        	// System.out.println(url);
     	 }
     	// System.out.println(url);
     	 stockCode=null;
@@ -111,7 +111,7 @@ public class NetWorkHandler
     		 _fetchHttpUrl=new FetchHttpUrl(temp_url);
     		 _fetchHttpUrl.SetMethod(_wa.get(index).getMethod());
     		 setRequestHeader(index);
-    		 System.out.println(temp_url);
+    		// System.out.println(temp_url);
     		 String text=_fetchHttpUrl.FetchHtmlText("GBK");
     		 ParserHtml ph=new ParserHtml(text,_wa.get(index).getStockCodeRegex(),_wa.get(index).getStockNameRegex());
     		 Map<String,String> temp_map=ph.returnMap(_wa.get(index).getWebName());

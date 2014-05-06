@@ -37,14 +37,14 @@ public final class DataBase implements BasicDB{
 		 PreparedStatement ps = null;
 		 ps=DBHandler.conn.prepareStatement(selectResult);
          ResultSet rs=DBHandler.sqlquery(ps);
-         int i=0;
+       //  int i=0;
 		 while(rs.next()){
 			 String StockCode=rs.getString("StockCode");
-			 System.out.println(StockCode);
+			 //System.out.println(StockCode);
 			 stockCode.add(StockCode);
-			 i++;
+			// i++;
 		 }
-		 System.out.println(i);
+		// System.out.println(i);
 		 rs.close(); 
 		 return stockCode;
 	 }
