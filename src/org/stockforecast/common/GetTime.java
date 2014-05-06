@@ -32,4 +32,8 @@ public  class GetTime {
 		int second=_calendar.get(Calendar.SECOND);
 		return second;
 	}
+	public int getWeekDay(){
+		int weekDay=_calendar.get(Calendar.DAY_OF_WEEK);
+		return weekDay;
+	}
 }

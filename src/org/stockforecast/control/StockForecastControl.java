@@ -3,7 +3,6 @@ package org.stockforecast.control;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Scanner;
@@ -49,18 +48,22 @@ public class StockForecastControl{
 			 Calendar getStockCodeTime=Calendar.getInstance();
 			 Calendar getStockPointAM=Calendar.getInstance();
 			 Calendar getStockPointPM=Calendar.getInstance();
-			 getStockCodeTime.set(Calendar.HOUR_OF_DAY,16);
-			 getStockCodeTime.set(Calendar.MINUTE,42);
-	         getStockPointAM.set(Calendar.HOUR_OF_DAY,16);
-			 getStockPointAM.set(Calendar.MINUTE, 55);
-			 getStockPointPM.set(Calendar.HOUR_OF_DAY,17);
-			 getStockPointPM.set(Calendar.MINUTE,40);
+			 getStockCodeTime.set(Calendar.HOUR_OF_DAY,9);
+			 //getStockCodeTime.set(Calendar.MINUTE,30);
+	         getStockPointAM.set(Calendar.HOUR_OF_DAY,9);
+			 getStockPointAM.set(Calendar.MINUTE, 30);
+			 getStockPointPM.set(Calendar.HOUR_OF_DAY,13);
+			 //getStockPointPM.set(Calendar.MINUTE,57);
 			 Timer getStockCodeTimer=new Timer();
 			 Timer getStockPointAMTimer=new Timer();
 		     Timer getStockPointPMTimer=new Timer();
-			 getStockCodeTimer.schedule(new getStockCode(),(getStockCodeTime.getTimeInMillis()-now.getTimeInMillis()));
-			 getStockPointAMTimer.schedule(new getStockPoint(),(getStockPointAM.getTimeInMillis()-now.getTimeInMillis()));	 
-			 getStockPointPMTimer.schedule(new getStockPoint(),(getStockPointPM.getTimeInMillis()-now.getTimeInMillis()));
+		     if(new GetTime().getWeekDay()!=Calendar.SUNDAY&&new GetTime().getWeekDay()!=Calendar.SATURDAY){
+			    getStockCodeTimer.schedule(new getStockCode(),(getStockCodeTime.getTimeInMillis()-now.getTimeInMillis()));
+			    getStockPointAMTimer.schedule(new getStockPoint(),(getStockPointAM.getTimeInMillis()-now.getTimeInMillis()));	 
+			    getStockPointPMTimer.schedule(new getStockPoint(),(getStockPointPM.getTimeInMillis()-now.getTimeInMillis()));
+		     }
+		     else
+		        System.out.println("周六周日不开盘");
 		 }
 	}
 	/*八点半左右需要进行的工作*/
@@ -78,7 +81,7 @@ public class StockForecastControl{
 				    entry.getValue().startsWith("sh601")||entry.getValue().startsWith("sh900")||
 					entry.getValue().startsWith("sz000")||entry.getValue().startsWith("sz002")||
 					entry.getValue().startsWith("sz200")||entry.getValue().startsWith("sh730")){
-				         ArrayList<String> list=new ArrayList<String>();
+				         ArrayList<String> list=new ArrayList<String>(3);
 				         list.add(entry.getKey());
 				         list.add(entry.getValue());
 				         list.add("null");
@@ -124,10 +127,10 @@ public class StockForecastControl{
 	    		  } 
 	    	 },0,oneMinute);
 	    	 while(true){
-				 if(new GetTime().getHour()==17&&new GetTime().getMinute()==30){
+				 if(new GetTime().getHour()==11&&new GetTime().getMinute()==30){
 					 taskPerTwoSecond.cancel();
 				     break;
-				 }else if(new GetTime().getHour()==20){
+				 }else if(new GetTime().getHour()==15){
 					 taskPerTwoSecond.cancel();
 				     break;     
 				 }
