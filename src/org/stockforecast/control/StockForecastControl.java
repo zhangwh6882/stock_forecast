@@ -21,6 +21,7 @@ public class StockForecastControl{
     private final int oneSecond=1000;
 	private final int oneMinute=oneSecond*60;
 	private final int oneDay=oneMinute*60*24;
+	HashMap<String,String> map = null;
 	public StockForecastControl(){
 		
 	}
@@ -90,36 +91,34 @@ public class StockForecastControl{
 	class getStockPoint extends TimerTask{
 		public void run(){
 	    	 Timer taskPerTwoSecond=new Timer();
-	    	 taskPerTwoSecond.schedule(new TimerTask(){
-	    		  public void run(){
-	    			HashMap<String,String> map = null;
-					try{
-						 NetWorkHandler nwh = new NetWorkHandler();
-		    			 map=nwh.ReturnPoint();
-		    			 System.out.println(new GetTime().getHour()+":"+new GetTime().getMinute()+":"+new GetTime().getSecond()+"   获取股票价格，完毕");
-					}catch (IOException e){
-						e.printStackTrace();
-					}catch (TransformerException e){
-						e.printStackTrace();
-					}catch (Exception e){
-						e.printStackTrace();
-					}
-	    			  for(Entry<String, String> entry:map.entrySet()){
-	    				  ArrayList<String> list=new ArrayList<String>(6);
-	    				  list.add(entry.getKey());
-	    				  list.add(String.valueOf(new GetTime().getYear()));
-	    				  list.add(String.valueOf(new GetTime().getMonth()));
-	    				  list.add(String.valueOf(new GetTime().getDay()));
-	    				  list.add(new GetTime().getHour()+":"+new GetTime().getMinute()+":"+new GetTime().getSecond());
-	    				  list.add(entry.getValue());
-	    				  DataBaseHandler.handler(list);	
-	    				  list=null;
-	    			   }
-	    			  map=null;
-	    			  System.out.println(new GetTime().getHour()+":"+new GetTime().getMinute()+":"+new GetTime().getSecond()+"   插入股票价格，完毕");
-					
-				 } 
-	    	 },0,oneMinute);
+			 try{
+				  NetWorkHandler nwh = new NetWorkHandler();
+	    		  map=nwh.ReturnPoint();
+	    		  System.out.println(new GetTime().getHour()+":"+new GetTime().getMinute()+":"+new GetTime().getSecond()+"   获取股票价格，完毕");
+			}catch (IOException e){
+					e.printStackTrace();
+			}catch (TransformerException e){
+					e.printStackTrace();
+			}catch (Exception e){
+					e.printStackTrace();
+			}
+	    	taskPerTwoSecond.schedule(new TimerTask(){
+	    		public void run(){
+	    	      for(Entry<String, String> entry:map.entrySet()){
+	    				ArrayList<String> list=new ArrayList<String>(6);
+	    				list.add(entry.getKey());
+	    				list.add(String.valueOf(new GetTime().getYear()));
+	    				list.add(String.valueOf(new GetTime().getMonth()));
+	    				list.add(String.valueOf(new GetTime().getDay()));
+	    				list.add(new GetTime().getHour()+":"+new GetTime().getMinute()+":"+new GetTime().getSecond());
+	    			    list.add(entry.getValue());
+	    				DataBaseHandler.handler(list);	
+	    				list=null;
+	    		 }
+	    	     map=null;
+	    	     System.out.println(new GetTime().getHour()+":"+new GetTime().getMinute()+":"+new GetTime().getSecond()+"   插入股票价格，完毕");
+			  } 
+	      },0,oneMinute);
 	    	 while(true){
 				 if(new GetTime().getHour()==16&&new GetTime().getMinute()==50){
 					 taskPerTwoSecond.cancel();
