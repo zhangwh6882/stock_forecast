@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map.Entry;
-import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.xml.transform.TransformerException;
@@ -17,7 +16,6 @@ import org.xml.sax.SAXException;
 
 public class StockForecastControl{
 	Timer timer;
-	Scanner scanner=new Scanner(System.in);
     private final int oneSecond=1000;
 	private final int oneMinute=oneSecond*60;
 	private final int oneDay=oneMinute*60*24;
@@ -42,12 +40,12 @@ public class StockForecastControl{
 			 Calendar getStockCodeTime=Calendar.getInstance();
 			 Calendar getStockPointAM=Calendar.getInstance();
 			 Calendar getStockPointPM=Calendar.getInstance();
-			 getStockCodeTime.set(Calendar.HOUR_OF_DAY,17);
-			 getStockCodeTime.set(Calendar.MINUTE,49);
-	         getStockPointAM.set(Calendar.HOUR_OF_DAY,16);
-			 getStockPointAM.set(Calendar.MINUTE, 20);
-			 getStockPointPM.set(Calendar.HOUR_OF_DAY,17);
-			 getStockPointPM.set(Calendar.MINUTE,20);
+			 getStockCodeTime.set(Calendar.HOUR_OF_DAY,9);
+			 //getStockCodeTime.set(Calendar.MINUTE,49);
+	         getStockPointAM.set(Calendar.HOUR_OF_DAY,9);
+			 getStockPointAM.set(Calendar.MINUTE, 30);
+			 getStockPointPM.set(Calendar.HOUR_OF_DAY,13);
+			 //getStockPointPM.set(Calendar.MINUTE,20);
 			 Timer getStockCodeTimer=new Timer();
 			 Timer getStockPointAMTimer=new Timer();
 		     Timer getStockPointPMTimer=new Timer();
@@ -95,11 +93,7 @@ public class StockForecastControl{
 				  NetWorkHandler nwh = new NetWorkHandler();
 	    		  map=nwh.ReturnPoint();
 	    		  System.out.println(new GetTime().getHour()+":"+new GetTime().getMinute()+":"+new GetTime().getSecond()+"   获取股票价格，完毕");
-			}catch (IOException e){
-					e.printStackTrace();
-			}catch (TransformerException e){
-					e.printStackTrace();
-			}catch (Exception e){
+			}catch ( Exception e ){
 					e.printStackTrace();
 			}
 	    	taskPerTwoSecond.schedule(new TimerTask(){
@@ -120,10 +114,10 @@ public class StockForecastControl{
 			  } 
 	      },0,oneMinute);
 	    	 while(true){
-				 if(new GetTime().getHour()==16&&new GetTime().getMinute()==50){
+				 if(new GetTime().getHour()==11&&new GetTime().getMinute()==30){
 					 taskPerTwoSecond.cancel();
 				     break;
-				 }else if(new GetTime().getHour()==18){
+				 }else if(new GetTime().getHour()==15){
 					 taskPerTwoSecond.cancel();
 				     break;     
 				 }

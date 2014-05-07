@@ -105,7 +105,6 @@ public class NetWorkHandler
     		 String temp_url=url+i;
     		 System.out.println(temp_url);
     		 _fetchHttpUrl=new FetchHttpUrl(temp_url);
-    		 
     		 _fetchHttpUrl.SetMethod(_wa.get(index).getMethod());
     		 setRequestHeader(index);
     		 String text=_fetchHttpUrl.FetchHtmlText("GBK");
