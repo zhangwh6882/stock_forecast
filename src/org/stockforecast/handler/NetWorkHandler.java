@@ -42,18 +42,12 @@ public class NetWorkHandler
         	 _fetchHttpUrl.SetMethod(_wa.get(2).getMethod());
         	 setRequestHeader(2);
         	 String text=_fetchHttpUrl.FetchHtmlText("GBK");
-        	 if(text!=null){
-        	    ParserHtml ph=new ParserHtml(text,_wa.get(2).getStockNameRegex());
-        	    codeAndPoint.putAll(ph.returnStockPoint());
-        	 }
-        	 else{
-        		  Thread.sleep(1000*10);
-        		  continue;
-        	 }
+        	 ParserHtml ph=new ParserHtml(text,_wa.get(2).getStockNameRegex());
+        	 codeAndPoint.putAll(ph.returnStockPoint());
+        	 
     	 }
     	 stockCode=null;
-         return codeAndPoint;
-    	 
+         return codeAndPoint; 
      }
      
      private void setRequestHeader(int choice) throws Exception{
@@ -89,16 +83,9 @@ public class NetWorkHandler
 		 _fetchHttpUrl.SetMethod(_wa.get(index).getMethod());
 		 setRequestHeader(index);
 		 String text=_fetchHttpUrl.FetchHtmlText("UTF-8");
-		 if(text!=null){
-		   ParserHtml ph=new ParserHtml(text,_wa.get(index).getStockCodeRegex(),_wa.get(index).getStockNameRegex());
-		   nameAndCode.putAll(ph.returnMap(_wa.get(index).getWebName()));
-		 }
-		 else{
-			 Thread.sleep(1000*10);
-			 return null;
-		 }
-    	 return nameAndCode;
-    	 
+		 ParserHtml ph=new ParserHtml(text,_wa.get(index).getStockCodeRegex(),_wa.get(index).getStockNameRegex());
+		 nameAndCode.putAll(ph.returnMap(_wa.get(index).getWebName()));
+    	  return nameAndCode;	 
      }
      public HashMap<String,String> parameterIsUnchangeable(int index) throws Exception{
     	 HashMap<String,String> nameAndCode=new HashMap<String,String>();
@@ -107,42 +94,29 @@ public class NetWorkHandler
 		 _fetchHttpUrl.SetMethod(_wa.get(index).getMethod());
 		 setRequestHeader(index);
 		 String text=_fetchHttpUrl.FetchHtmlText("UTF-8");
-		 if(text!=null){  
-		    ParserHtml ph=new ParserHtml(text,_wa.get(index).getStockCodeRegex(),_wa.get(index).getStockNameRegex());
-		    nameAndCode.putAll(ph.returnMap(_wa.get(index).getWebName()));
-		 }
-		 else{
-   		    Thread.sleep(1000*10);
-   		    return null;
-   	     }
+		 ParserHtml ph=new ParserHtml(text,_wa.get(index).getStockCodeRegex(),_wa.get(index).getStockNameRegex());
+		 nameAndCode.putAll(ph.returnMap(_wa.get(index).getWebName()));
     	 return nameAndCode;
-		
-    	 
      }
      public HashMap<String,String> parameterIsChangeable(int index) throws Exception{
     	 HashMap<String,String> nameAndCode=new HashMap<String,String>();
     	 String url=_wa.get(index).getURl()+_wa.get(index).getParameter();
     	 for(int i=1;;i++){
     		 String temp_url=url+i;
+    		 System.out.println(temp_url);
     		 _fetchHttpUrl=new FetchHttpUrl(temp_url);
+    		 
     		 _fetchHttpUrl.SetMethod(_wa.get(index).getMethod());
     		 setRequestHeader(index);
     		 String text=_fetchHttpUrl.FetchHtmlText("GBK");
-    		 if(text!=null){ 
-    		    ParserHtml ph=new ParserHtml(text,_wa.get(index).getStockCodeRegex(),_wa.get(index).getStockNameRegex());
-    		    Map<String,String> temp_map=ph.returnMap(_wa.get(index).getWebName());
-    		    if(temp_map.isEmpty()){
+    		 ParserHtml ph=new ParserHtml(text,_wa.get(index).getStockCodeRegex(),_wa.get(index).getStockNameRegex());
+    		 Map<String,String> temp_map=ph.returnMap(_wa.get(index).getWebName());
+    		 if(temp_map.isEmpty()){
     			     break;
-    		    }
-    		    else
-    			    nameAndCode.putAll(temp_map);
     		 }
-    		 else{
-    			 Thread.sleep(1000*10);
-       		     continue;
-    		 }
+    		 else
+    			 nameAndCode.putAll(temp_map);
     	 }
-		return nameAndCode;
-    	 
+		return nameAndCode;  	 
      }
 }

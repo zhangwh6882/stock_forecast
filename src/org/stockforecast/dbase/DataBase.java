@@ -8,7 +8,9 @@ import java.sql.SQLException;
 import org.stockforecast.common.GetTime;
 
 public final class DataBase implements BasicDB{
-	 static{
+	static PreparedStatement ps = null; 
+	static ResultSet rs;
+	static{
 		 
 	 }
 	 /*
@@ -19,7 +21,6 @@ public final class DataBase implements BasicDB{
 	 public static void InsertSEInfo(ArrayList<String> seInfo){
 		 String DBName=new GetTime().getYear()+"_"+new GetTime().getMonth()+"_"+new GetTime().getDay()+"_SSHE";
 		 String setSEInfo="Insert into "+DBName+" (StockName,StockCode,StockExchangeType) VALUES(?,?,?)";
-		 PreparedStatement ps = null;
 		 try {
 			  ps=DBHandler.conn.prepareStatement(setSEInfo);
 			  ps.setString(1, seInfo.get(0));
@@ -34,18 +35,12 @@ public final class DataBase implements BasicDB{
 		 ArrayList<String> stockCode = new ArrayList<String>();
 		 String DBName=new GetTime().getYear()+"_"+new GetTime().getMonth()+"_"+new GetTime().getDay()+"_SSHE";
 		 String selectResult="SELECT StockCode FROM "+DBName;
-		 PreparedStatement ps = null;
 		 ps=DBHandler.conn.prepareStatement(selectResult);
-         ResultSet rs=DBHandler.sqlquery(ps);
-       //  int i=0;
+         rs=DBHandler.sqlquery(ps);
 		 while(rs.next()){
 			 String StockCode=rs.getString("StockCode");
-			 //System.out.println(StockCode);
 			 stockCode.add(StockCode);
-			// i++;
 		 }
-		// System.out.println(i);
-		 rs.close(); 
 		 return stockCode;
 	 }
 	 /*
@@ -57,7 +52,6 @@ public final class DataBase implements BasicDB{
 	  * index 6:股票指数
 	  * */
 	 public static void InsertStockPoint(ArrayList<String> stockPoint){
-		 PreparedStatement ps = null;
 		 try {
 			ps=DBHandler.conn.prepareStatement(_setStockPointInfo);
 			ps.setString(1, stockPoint.get(0));

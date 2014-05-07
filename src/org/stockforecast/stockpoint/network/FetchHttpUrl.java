@@ -28,7 +28,6 @@ public class FetchHttpUrl {
      public void initialConnection(String url) throws IOException{
     	 this.url= new URL(url);
     	 connection=(HttpURLConnection)this.url.openConnection();
-    	 connection.setConnectTimeout(3000);
      }
 	 @SuppressWarnings("static-access")
 	 public void SetMethod(String Method) throws ProtocolException{
@@ -57,13 +56,12 @@ public class FetchHttpUrl {
 	 public void setEncode(boolean encode){
 		 _encode=encode;
 	 }
-	 @SuppressWarnings("null")
 	public String FetchHtmlText(String ContentType) throws IOException{ 
 		 BufferedReader reader = null;
     	 String line=null;
     	 String text=null;
-		 connection.connect();
-		 try{
+    	 connection.connect();
+    	 try{
 		   if(_encode==true)
     	      reader=new BufferedReader(new InputStreamReader(
     			     new GZIPInputStream(connection.getInputStream()),ContentType
@@ -72,14 +70,23 @@ public class FetchHttpUrl {
 			  reader=new BufferedReader(new InputStreamReader(
 	    			 connection.getInputStream(),ContentType
 	                  ));	 
-		    }
-		 }catch(SocketTimeoutException e){
-			 reader.close();
-	    	 connection.disconnect(); 
-			 return null;
-		 }
-    	 while((line=reader.readLine())!=null){
-    		 text=text+line;
+		   }
+    	   while((line=reader.readLine())!=null){
+    		   text=text+line;
+    	   }
+    	 }catch (SocketTimeoutException e){
+    		 if(_encode==true)
+       	      reader=new BufferedReader(new InputStreamReader(
+       			     new GZIPInputStream(connection.getInputStream()),ContentType
+                        ));
+   		     else{
+   			    reader=new BufferedReader(new InputStreamReader(
+   	    			 connection.getInputStream(),ContentType
+   	                  ));	 
+   		     }
+       	     while((line=reader.readLine())!=null){
+       		   text=text+line;
+       	     }
     	 }
     	 reader.close();
     	 connection.disconnect();

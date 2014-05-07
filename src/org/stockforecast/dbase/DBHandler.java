@@ -11,6 +11,7 @@ import org.stockforecast.common.GetTime;
 public final class DBHandler implements BasicDB{
      public static Connection conn;
      static Statement sm;
+     static ResultSet rs = null;
      static{
     	 try {
 			   conn=DriverManager.getConnection(_mysqlUrl, _username, _passwd);
@@ -62,7 +63,6 @@ public final class DBHandler implements BasicDB{
      }
         
      public static ResultSet sqlquery(PreparedStatement ps){
-    	 ResultSet rs = null;
     	 try {
     		useDataBase();
 			rs=ps.executeQuery();

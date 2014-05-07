@@ -41,19 +41,19 @@ public class StockForecastControl{
 			 Calendar getStockCodeTime=Calendar.getInstance();
 			 Calendar getStockPointAM=Calendar.getInstance();
 			 Calendar getStockPointPM=Calendar.getInstance();
-			 getStockCodeTime.set(Calendar.HOUR_OF_DAY,9);
-			// getStockCodeTime.set(Calendar.MINUTE,15);
-	         getStockPointAM.set(Calendar.HOUR_OF_DAY,9);
-			 getStockPointAM.set(Calendar.MINUTE, 30);
-			 getStockPointPM.set(Calendar.HOUR_OF_DAY,13);
-			 //getStockPointPM.set(Calendar.MINUTE,57);
+			 getStockCodeTime.set(Calendar.HOUR_OF_DAY,17);
+			 getStockCodeTime.set(Calendar.MINUTE,49);
+	         getStockPointAM.set(Calendar.HOUR_OF_DAY,16);
+			 getStockPointAM.set(Calendar.MINUTE, 20);
+			 getStockPointPM.set(Calendar.HOUR_OF_DAY,17);
+			 getStockPointPM.set(Calendar.MINUTE,20);
 			 Timer getStockCodeTimer=new Timer();
 			 Timer getStockPointAMTimer=new Timer();
 		     Timer getStockPointPMTimer=new Timer();
 		     if(new GetTime().getWeekDay()!=Calendar.SUNDAY&&new GetTime().getWeekDay()!=Calendar.SATURDAY){
-			    getStockCodeTimer.schedule(new getStockCode(),(getStockCodeTime.getTimeInMillis()-now.getTimeInMillis()));
-			    getStockPointAMTimer.schedule(new getStockPoint(),(getStockPointAM.getTimeInMillis()-now.getTimeInMillis()));	 
-			    getStockPointPMTimer.schedule(new getStockPoint(),(getStockPointPM.getTimeInMillis()-now.getTimeInMillis()));
+			   getStockCodeTimer.schedule(new getStockCode(),(getStockCodeTime.getTimeInMillis()-now.getTimeInMillis()));
+			   getStockPointAMTimer.schedule(new getStockPoint(),(getStockPointAM.getTimeInMillis()-now.getTimeInMillis()));	 
+			   getStockPointPMTimer.schedule(new getStockPoint(),(getStockPointPM.getTimeInMillis()-now.getTimeInMillis()));
 		     }
 		     else
 		        System.out.println("周六周日不开盘");
@@ -104,7 +104,6 @@ public class StockForecastControl{
 					}catch (Exception e){
 						e.printStackTrace();
 					}
-					if(map!=null){
 	    			  for(Entry<String, String> entry:map.entrySet()){
 	    				  ArrayList<String> list=new ArrayList<String>(6);
 	    				  list.add(entry.getKey());
@@ -118,14 +117,14 @@ public class StockForecastControl{
 	    			   }
 	    			  map=null;
 	    			  System.out.println(new GetTime().getHour()+":"+new GetTime().getMinute()+":"+new GetTime().getSecond()+"   插入股票价格，完毕");
-					}
+					
 				 } 
 	    	 },0,oneMinute);
 	    	 while(true){
-				 if(new GetTime().getHour()==11&&new GetTime().getMinute()==30){
+				 if(new GetTime().getHour()==16&&new GetTime().getMinute()==50){
 					 taskPerTwoSecond.cancel();
 				     break;
-				 }else if(new GetTime().getHour()==15){
+				 }else if(new GetTime().getHour()==18){
 					 taskPerTwoSecond.cancel();
 				     break;     
 				 }
