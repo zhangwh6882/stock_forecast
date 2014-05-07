@@ -49,7 +49,7 @@ public class StockForecastControl{
 			 Calendar getStockPointAM=Calendar.getInstance();
 			 Calendar getStockPointPM=Calendar.getInstance();
 			 getStockCodeTime.set(Calendar.HOUR_OF_DAY,9);
-			 //getStockCodeTime.set(Calendar.MINUTE,30);
+			// getStockCodeTime.set(Calendar.MINUTE,15);
 	         getStockPointAM.set(Calendar.HOUR_OF_DAY,9);
 			 getStockPointAM.set(Calendar.MINUTE, 30);
 			 getStockPointPM.set(Calendar.HOUR_OF_DAY,13);
