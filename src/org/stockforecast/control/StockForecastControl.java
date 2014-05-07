@@ -39,11 +39,9 @@ public class StockForecastControl{
 		  }
 	    }
 	    timer.schedule(new oneDayTask(),0, oneDay);
-	    //while(true);
 	}
 	class oneDayTask extends TimerTask{
-		 public void run(){
-		//	 System.out.println("Time''s up!"); 
+		 public void run(){ 
 			 Calendar now=Calendar.getInstance();
 			 Calendar getStockCodeTime=Calendar.getInstance();
 			 Calendar getStockPointAM=Calendar.getInstance();
@@ -111,7 +109,8 @@ public class StockForecastControl{
 					}catch (Exception e){
 						e.printStackTrace();
 					}
-	    			for(Entry<String, String> entry:map.entrySet()){
+					if(map!=null){
+	    			  for(Entry<String, String> entry:map.entrySet()){
 	    				  ArrayList<String> list=new ArrayList<String>(6);
 	    				  list.add(entry.getKey());
 	    				  list.add(String.valueOf(new GetTime().getYear()));
@@ -122,9 +121,10 @@ public class StockForecastControl{
 	    				  DataBaseHandler.handler(list);	
 	    				  list=null;
 	    			   }
-	    			map=null;
-	    			System.out.println(new GetTime().getHour()+":"+new GetTime().getMinute()+":"+new GetTime().getSecond()+"   插入股票价格，完毕");
-	    		  } 
+	    			  map=null;
+	    			  System.out.println(new GetTime().getHour()+":"+new GetTime().getMinute()+":"+new GetTime().getSecond()+"   插入股票价格，完毕");
+					}
+				 } 
 	    	 },0,oneMinute);
 	    	 while(true){
 				 if(new GetTime().getHour()==11&&new GetTime().getMinute()==30){

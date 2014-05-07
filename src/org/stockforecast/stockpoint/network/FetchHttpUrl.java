@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ProtocolException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.HttpURLConnection;
 import java.util.zip.GZIPInputStream;
@@ -27,6 +28,7 @@ public class FetchHttpUrl {
      public void initialConnection(String url) throws IOException{
     	 this.url= new URL(url);
     	 connection=(HttpURLConnection)this.url.openConnection();
+    	 connection.setConnectTimeout(3000);
      }
 	 @SuppressWarnings("static-access")
 	 public void SetMethod(String Method) throws ProtocolException{
@@ -55,19 +57,26 @@ public class FetchHttpUrl {
 	 public void setEncode(boolean encode){
 		 _encode=encode;
 	 }
-	 public String FetchHtmlText(String ContentType) throws IOException{ 
+	 @SuppressWarnings("null")
+	public String FetchHtmlText(String ContentType) throws IOException{ 
 		 BufferedReader reader = null;
     	 String line=null;
     	 String text=null;
 		 connection.connect();
-		 if(_encode==true)
-    	   reader=new BufferedReader(new InputStreamReader(
-    			 new GZIPInputStream(connection.getInputStream()),ContentType
-                 ));
-		 else{
-			 reader=new BufferedReader(new InputStreamReader(
+		 try{
+		   if(_encode==true)
+    	      reader=new BufferedReader(new InputStreamReader(
+    			     new GZIPInputStream(connection.getInputStream()),ContentType
+                     ));
+		   else{
+			  reader=new BufferedReader(new InputStreamReader(
 	    			 connection.getInputStream(),ContentType
-	                 ));	 
+	                  ));	 
+		    }
+		 }catch(SocketTimeoutException e){
+			 reader.close();
+	    	 connection.disconnect(); 
+			 return null;
 		 }
     	 while((line=reader.readLine())!=null){
     		 text=text+line;

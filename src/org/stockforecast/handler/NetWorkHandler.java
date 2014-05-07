@@ -33,7 +33,7 @@ public class NetWorkHandler
     	 }
     	 return nameAndCode;
      }
-     public HashMap<String,String> ReturnPoint() throws Exception{
+     public HashMap<String,String> ReturnPoint() throws Exception {
     	 ArrayList<String> stockCode=DataBaseHandler.handler();
     	 HashMap<String,String> codeAndPoint=new HashMap<String,String>();
     	 for(int i=0;i<stockCode.size();i++){
@@ -42,11 +42,15 @@ public class NetWorkHandler
         	 _fetchHttpUrl.SetMethod(_wa.get(2).getMethod());
         	 setRequestHeader(2);
         	 String text=_fetchHttpUrl.FetchHtmlText("GBK");
-        	 ParserHtml ph=new ParserHtml(text,_wa.get(2).getStockNameRegex());
-        	 codeAndPoint.putAll(ph.returnStockPoint());
-        	// System.out.println(url);
+        	 if(text!=null){
+        	    ParserHtml ph=new ParserHtml(text,_wa.get(2).getStockNameRegex());
+        	    codeAndPoint.putAll(ph.returnStockPoint());
+        	 }
+        	 else{
+        		  Thread.sleep(1000*10);
+        		  continue;
+        	 }
     	 }
-    	// System.out.println(url);
     	 stockCode=null;
          return codeAndPoint;
     	 
@@ -85,8 +89,14 @@ public class NetWorkHandler
 		 _fetchHttpUrl.SetMethod(_wa.get(index).getMethod());
 		 setRequestHeader(index);
 		 String text=_fetchHttpUrl.FetchHtmlText("UTF-8");
-		 ParserHtml ph=new ParserHtml(text,_wa.get(index).getStockCodeRegex(),_wa.get(index).getStockNameRegex());
-		 nameAndCode.putAll(ph.returnMap(_wa.get(index).getWebName()));
+		 if(text!=null){
+		   ParserHtml ph=new ParserHtml(text,_wa.get(index).getStockCodeRegex(),_wa.get(index).getStockNameRegex());
+		   nameAndCode.putAll(ph.returnMap(_wa.get(index).getWebName()));
+		 }
+		 else{
+			 Thread.sleep(1000*10);
+			 return null;
+		 }
     	 return nameAndCode;
     	 
      }
@@ -97,9 +107,15 @@ public class NetWorkHandler
 		 _fetchHttpUrl.SetMethod(_wa.get(index).getMethod());
 		 setRequestHeader(index);
 		 String text=_fetchHttpUrl.FetchHtmlText("UTF-8");
-		 ParserHtml ph=new ParserHtml(text,_wa.get(index).getStockCodeRegex(),_wa.get(index).getStockNameRegex());
-		 nameAndCode.putAll(ph.returnMap(_wa.get(index).getWebName()));
-    	 return null;
+		 if(text!=null){  
+		    ParserHtml ph=new ParserHtml(text,_wa.get(index).getStockCodeRegex(),_wa.get(index).getStockNameRegex());
+		    nameAndCode.putAll(ph.returnMap(_wa.get(index).getWebName()));
+		 }
+		 else{
+   		    Thread.sleep(1000*10);
+   		    return null;
+   	     }
+    	 return nameAndCode;
 		
     	 
      }
@@ -111,15 +127,20 @@ public class NetWorkHandler
     		 _fetchHttpUrl=new FetchHttpUrl(temp_url);
     		 _fetchHttpUrl.SetMethod(_wa.get(index).getMethod());
     		 setRequestHeader(index);
-    		// System.out.println(temp_url);
     		 String text=_fetchHttpUrl.FetchHtmlText("GBK");
-    		 ParserHtml ph=new ParserHtml(text,_wa.get(index).getStockCodeRegex(),_wa.get(index).getStockNameRegex());
-    		 Map<String,String> temp_map=ph.returnMap(_wa.get(index).getWebName());
-    		 if(temp_map.isEmpty()){
-    			  break;
+    		 if(text!=null){ 
+    		    ParserHtml ph=new ParserHtml(text,_wa.get(index).getStockCodeRegex(),_wa.get(index).getStockNameRegex());
+    		    Map<String,String> temp_map=ph.returnMap(_wa.get(index).getWebName());
+    		    if(temp_map.isEmpty()){
+    			     break;
+    		    }
+    		    else
+    			    nameAndCode.putAll(temp_map);
     		 }
-    		 else
-    			 nameAndCode.putAll(temp_map);
+    		 else{
+    			 Thread.sleep(1000*10);
+       		     continue;
+    		 }
     	 }
 		return nameAndCode;
     	 
