@@ -24,20 +24,15 @@ public class StockForecastControl{
 	public StockForecastControl(){
 		
 	}
-	
-	public void start(){
-		timer=new Timer();
-		System.out.print("是否需要设置配置文件(Y/N)?：");
-		String choice=scanner.nextLine();
-		if(choice.equals("Y")||choice.equals("y")){
+	public void configurationControl(){
 		  try{
 		  	ConfigurationHandler.setWebConfiguration();
-		  }
-		  catch (IOException | TransformerException | SAXException e){
-			// TODO Auto-generated catch block
+		  }catch (IOException | TransformerException | SAXException e){
 			e.printStackTrace();
 		  }
-	    }
+	}
+	public void runnableControl(){
+		timer=new Timer();	
 	    timer.schedule(new oneDayTask(),0, oneDay);
 	}
 	class oneDayTask extends TimerTask{
