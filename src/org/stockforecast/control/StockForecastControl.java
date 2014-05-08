@@ -1,6 +1,7 @@
 package org.stockforecast.control;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ public class StockForecastControl{
 	private final int oneMinute=oneSecond*60;
 	private final int oneDay=oneMinute*60*24;
 	HashMap<String,String> map = null;
+	ArrayList<String> stockCode=null;
 	public StockForecastControl(){
 		
 	}
@@ -43,7 +45,7 @@ public class StockForecastControl{
 			 getStockCodeTime.set(Calendar.HOUR_OF_DAY,1);
 			 //getStockCodeTime.set(Calendar.MINUTE,49);
 	         getStockPointAM.set(Calendar.HOUR_OF_DAY,1);
-			 getStockPointAM.set(Calendar.MINUTE, 30);
+			 getStockPointAM.set(Calendar.MINUTE,30);
 			 getStockPointPM.set(Calendar.HOUR_OF_DAY,5);
 			 //getStockPointPM.set(Calendar.MINUTE,20);
 			 Timer getStockCodeTimer=new Timer();
@@ -89,15 +91,21 @@ public class StockForecastControl{
 	class getStockPoint extends TimerTask{
 		public void run(){
 	    	 Timer taskPerTwoSecond=new Timer();
-			 try{
-				  NetWorkHandler nwh = new NetWorkHandler();
-	    		  map=nwh.ReturnPoint();
-	    		  System.out.println(new GetTime().getHour()+":"+new GetTime().getMinute()+":"+new GetTime().getSecond()+"   获取股票价格，完毕");
-			}catch ( Exception e ){
-					e.printStackTrace();
-			}
+	    	 try{
+				stockCode=DataBaseHandler.handler();
+			 }catch (SQLException e1){
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			 }
 	    	taskPerTwoSecond.schedule(new TimerTask(){
 	    		public void run(){
+	    		  try{
+	  				  NetWorkHandler nwh = new NetWorkHandler();
+	  	    		  map=nwh.ReturnPoint(stockCode);
+	  	    		  System.out.println(new GetTime().getHour()+":"+new GetTime().getMinute()+":"+new GetTime().getSecond()+"   获取股票价格，完毕");
+	  			  }catch ( Exception e ){
+	  					e.printStackTrace();
+	  			  }
 	    	      for(Entry<String, String> entry:map.entrySet()){
 	    				ArrayList<String> list=new ArrayList<String>(6);
 	    				list.add(entry.getKey());

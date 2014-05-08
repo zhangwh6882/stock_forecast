@@ -33,8 +33,7 @@ public class NetWorkHandler
     	 }
     	 return nameAndCode;
      }
-     public HashMap<String,String> ReturnPoint() throws Exception {
-    	 ArrayList<String> stockCode=DataBaseHandler.handler();
+     public HashMap<String,String> ReturnPoint(ArrayList<String> stockCode) throws Exception {
     	 HashMap<String,String> codeAndPoint=new HashMap<String,String>();
     	 for(int i=0;i<stockCode.size();i++){
     	     String  url= _wa.get(2).getURl()+"="+stockCode.get(i);
@@ -75,7 +74,7 @@ public class NetWorkHandler
         	 _fetchHttpUrl.SetRequestHeader("X-Forwarded-For", _wa.get(choice).getX_Forwarded_For());
      }
      
-     public HashMap<String,String> parameterIsNull(int index) throws Exception{
+     private HashMap<String,String> parameterIsNull(int index) throws Exception{
 		 HashMap<String,String> nameAndCode=new HashMap<String,String>();
 		 String url=_wa.get(index).getURl();
 		 System.out.println(url);
@@ -87,7 +86,7 @@ public class NetWorkHandler
 		 nameAndCode.putAll(ph.returnMap(_wa.get(index).getWebName()));
     	  return nameAndCode;	 
      }
-     public HashMap<String,String> parameterIsUnchangeable(int index) throws Exception{
+     private HashMap<String,String> parameterIsUnchangeable(int index) throws Exception{
     	 HashMap<String,String> nameAndCode=new HashMap<String,String>();
     	 String url=_wa.get(index).getURl()+_wa.get(index).getParameter();
     	 _fetchHttpUrl=new FetchHttpUrl(url);
@@ -98,7 +97,7 @@ public class NetWorkHandler
 		 nameAndCode.putAll(ph.returnMap(_wa.get(index).getWebName()));
     	 return nameAndCode;
      }
-     public HashMap<String,String> parameterIsChangeable(int index) throws Exception{
+     private HashMap<String,String> parameterIsChangeable(int index) throws Exception{
     	 HashMap<String,String> nameAndCode=new HashMap<String,String>();
     	 String url=_wa.get(index).getURl()+_wa.get(index).getParameter();
     	 for(int i=1;;i++){
