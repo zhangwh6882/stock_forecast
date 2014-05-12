@@ -36,8 +36,9 @@ public class StockForecastControl{
 		Calendar startTime= Calendar.getInstance();
 		startTime.set(Calendar.HOUR_OF_DAY, 0);
 		startTime.set(Calendar.MINUTE, 0);
+		startTime.set(Calendar.SECOND,0);
 		timer=new Timer();	
-	    timer.schedule(new oneDayTask(),0, oneDay);
+	    timer.scheduleAtFixedRate(new oneDayTask(),0, oneDay);
 	}
 	class oneDayTask extends TimerTask{
 		 public void run(){ 
@@ -45,17 +46,17 @@ public class StockForecastControl{
 			 Calendar getStockCodeTime=Calendar.getInstance();
 			 Calendar getStockPointAM=Calendar.getInstance();
 			 Calendar getStockPointPM=Calendar.getInstance();
-			 getStockCodeTime.set(Calendar.HOUR_OF_DAY,10);
-			 getStockCodeTime.set(Calendar.MINUTE,12);
-	         getStockPointAM.set(Calendar.HOUR_OF_DAY,13);
-			 getStockPointAM.set(Calendar.MINUTE,41);
-			 getStockPointPM.set(Calendar.HOUR_OF_DAY,14);
+			 getStockCodeTime.set(Calendar.HOUR_OF_DAY,9);
+			 //getStockCodeTime.set(Calendar.MINUTE,12);
+	         getStockPointAM.set(Calendar.HOUR_OF_DAY,9);
+			 getStockPointAM.set(Calendar.MINUTE,30);
+			 getStockPointPM.set(Calendar.HOUR_OF_DAY,13);
 			 //getStockPointPM.set(Calendar.MINUTE,20);
-			 //Timer getStockCodeTimer=new Timer();
+			 Timer getStockCodeTimer=new Timer();
 			 Timer getStockPointAMTimer=new Timer();
 		     Timer getStockPointPMTimer=new Timer();
 		     if(new GetTime().getWeekDay()!=Calendar.SUNDAY&&new GetTime().getWeekDay()!=Calendar.SATURDAY){
-			 //  getStockCodeTimer.schedule(new getStockCode(),(getStockCodeTime.getTimeInMillis()-now.getTimeInMillis()));
+			     getStockCodeTimer.schedule(new getStockCode(),(getStockCodeTime.getTimeInMillis()-now.getTimeInMillis()));
 			     getStockPointAMTimer.schedule(new getStockPoint(),(getStockPointAM.getTimeInMillis()-now.getTimeInMillis()));	 
 			     getStockPointPMTimer.schedule(new getStockPoint(),(getStockPointPM.getTimeInMillis()-now.getTimeInMillis()));
 		     }
@@ -93,14 +94,14 @@ public class StockForecastControl{
 	/*九点半到11点半需要做的任务,一点到三点需要做的任务*/
 	class getStockPoint extends TimerTask{
 		public void run(){
-	    	 Timer taskPerTwoSecond=new Timer();
+	    	 Timer taskPerSecond=new Timer();
 	    	 try{
 				stockCode=DataBaseHandler.handler();
 			 }catch (SQLException e1){
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			 }
-	    	taskPerTwoSecond.schedule(new TimerTask(){
+	    	taskPerSecond.schedule(new TimerTask(){
 	    		public void run(){
 	    		  try{
 	  				  NetWorkHandler nwh = new NetWorkHandler();
@@ -125,11 +126,11 @@ public class StockForecastControl{
 			  } 
 	      },0,oneMinute);
 	    	 while(true){
-				 if(new GetTime().getHour()==13&&new GetTime().getMinute()==50){
-					 taskPerTwoSecond.cancel();
+				 if(new GetTime().getHour()==11&&new GetTime().getMinute()==30){
+					 taskPerSecond.cancel();
 				     break;
 				 }else if(new GetTime().getHour()==15){
-					 taskPerTwoSecond.cancel();
+					 taskPerSecond.cancel();
 				     break;     
 				 }
 				 try{
