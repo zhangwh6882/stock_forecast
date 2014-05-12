@@ -32,7 +32,7 @@ public interface BasicDB {
   
    /*mysql地址，用户名和密码*/
    public final String _mysqlUrl="jdbc:mysql://localhost:3306/";
-   public final String _username="huxuehan";
+   public final String _username="root";
    public final String _passwd="huang19910311@he";
    
    

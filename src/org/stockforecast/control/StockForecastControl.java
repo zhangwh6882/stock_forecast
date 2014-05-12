@@ -33,6 +33,9 @@ public class StockForecastControl{
 		  }
 	}
 	public void runnableControl(){
+		Calendar startTime= Calendar.getInstance();
+		startTime.set(Calendar.HOUR_OF_DAY, 0);
+		startTime.set(Calendar.MINUTE, 0);
 		timer=new Timer();	
 	    timer.schedule(new oneDayTask(),0, oneDay);
 	}
@@ -42,19 +45,19 @@ public class StockForecastControl{
 			 Calendar getStockCodeTime=Calendar.getInstance();
 			 Calendar getStockPointAM=Calendar.getInstance();
 			 Calendar getStockPointPM=Calendar.getInstance();
-			 getStockCodeTime.set(Calendar.HOUR_OF_DAY,1);
-			 //getStockCodeTime.set(Calendar.MINUTE,49);
-	         getStockPointAM.set(Calendar.HOUR_OF_DAY,1);
-			 getStockPointAM.set(Calendar.MINUTE,30);
-			 getStockPointPM.set(Calendar.HOUR_OF_DAY,5);
+			 getStockCodeTime.set(Calendar.HOUR_OF_DAY,10);
+			 getStockCodeTime.set(Calendar.MINUTE,12);
+	         getStockPointAM.set(Calendar.HOUR_OF_DAY,13);
+			 getStockPointAM.set(Calendar.MINUTE,41);
+			 getStockPointPM.set(Calendar.HOUR_OF_DAY,14);
 			 //getStockPointPM.set(Calendar.MINUTE,20);
-			 Timer getStockCodeTimer=new Timer();
+			 //Timer getStockCodeTimer=new Timer();
 			 Timer getStockPointAMTimer=new Timer();
 		     Timer getStockPointPMTimer=new Timer();
 		     if(new GetTime().getWeekDay()!=Calendar.SUNDAY&&new GetTime().getWeekDay()!=Calendar.SATURDAY){
-			   getStockCodeTimer.schedule(new getStockCode(),(getStockCodeTime.getTimeInMillis()-now.getTimeInMillis()));
-			   getStockPointAMTimer.schedule(new getStockPoint(),(getStockPointAM.getTimeInMillis()-now.getTimeInMillis()));	 
-			   getStockPointPMTimer.schedule(new getStockPoint(),(getStockPointPM.getTimeInMillis()-now.getTimeInMillis()));
+			 //  getStockCodeTimer.schedule(new getStockCode(),(getStockCodeTime.getTimeInMillis()-now.getTimeInMillis()));
+			     getStockPointAMTimer.schedule(new getStockPoint(),(getStockPointAM.getTimeInMillis()-now.getTimeInMillis()));	 
+			     getStockPointPMTimer.schedule(new getStockPoint(),(getStockPointPM.getTimeInMillis()-now.getTimeInMillis()));
 		     }
 		     else
 		        System.out.println("周六周日不开盘");
@@ -122,10 +125,10 @@ public class StockForecastControl{
 			  } 
 	      },0,oneMinute);
 	    	 while(true){
-				 if(new GetTime().getHour()==3&&new GetTime().getMinute()==30){
+				 if(new GetTime().getHour()==13&&new GetTime().getMinute()==50){
 					 taskPerTwoSecond.cancel();
 				     break;
-				 }else if(new GetTime().getHour()==7){
+				 }else if(new GetTime().getHour()==15){
 					 taskPerTwoSecond.cancel();
 				     break;     
 				 }
